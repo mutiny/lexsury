@@ -1,0 +1,57 @@
+{
+  "name": "lexsur",
+  "description": "A classroom facilitation application",
+  "version": "0.0.0",
+  "homepage": "",
+  "main": "src",
+  "keywords": [
+    "feathers"
+  ],
+  "author": {
+    "name": "Robin Ury",
+    "email": "r.ury@tuta.io"
+  },
+  "contributors": [],
+  "bugs": {},
+  "directories": {
+    "lib": "src"
+  },
+  "engines": {
+    "node": ">= 6.0.0",
+    "yarn": ">= 0.18.0"
+  },
+  "scripts": {
+    "test": "yarn run standard && yarn run mocha",
+    "lint": "standard --fix --env mocha",
+    "start": "node src/",
+    "mocha": "mocha test/ --recursive"
+  },
+  "dependencies": {
+    "body-parser": "^1.17.1",
+    "bootstrap": "^3.3.7",
+    "compression": "^1.6.2",
+    "cors": "^2.8.3",
+    "eslint": "^3.19.0",
+    "feathers": "^2.1.1",
+    "feathers-configuration": "^0.4.1",
+    "feathers-errors": "^2.7.0",
+    "feathers-hooks": "^2.0.0",
+    "feathers-hooks-common": "^3.0.0",
+    "feathers-memory": "^1.1.0",
+    "feathers-rest": "^1.7.2",
+    "feathers-socketio": "^1.6.0",
+    "helmet": "^3.5.0",
+    "jquery": "^3.2.1",
+    "mocha": "^3.3.0",
+    "request": "^2.81.0",
+    "request-promise": "^4.2.0",
+    "serve-favicon": "^2.4.2",
+    "standard": "^10.0.2",
+    "winston": "^2.3.1"
+  },
+  "env": {
+    "mocha": true,
+    "node": true,
+    "jquery": true
+  }
+}

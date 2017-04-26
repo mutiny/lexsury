@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Lexsur | Classroom</title>
+    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.css">
+  </head>
+  <body>
+    <div class="container">
+      <main class="col-xs-12 col-md-7"> 
+        <div class="topic">
+          <h2>Topic: {{ Topic }}</h2>
+        </div>
+        <div class="quiz">
+          <h2>Quiz: {{ Quiz }}</h2>
+        </div>
+        <footer>
+          <p class="center-text">A project by 
+          <a href="https://github.com/mutiny">Team Mutiny</a>.</p>
+        </footer>
+      </main>
+      <aside class="col-xs-12 col-md-5">
+        <div>
+        <h2>Questions</h2>
+        <form action="" class="inline-form" id="q-form">
+          <div class="input-group">
+            <input type="text" class="form-control" placeholder="Ask a question">
+            <span class="input-group-btn">
+              <button type="submit" id="but-ask" class="btn btn-primary">Ask</button>
+            </span>
+          </div>
+        </form>
+        <button id="but-top">Top</button>
+        <button id="but-recent">Recent</button>
+        <ol id="questions">
+          <!-- Questions generated and displayed here -->
+          <li>Question 1</li>
+          <li>Question 2</li>
+          <li>Question 3</li>
+          <li>Question 4</li>
+          <li>Question 5</li>
+          <li>Question 6</li>
+          <li>Question 7</li>
+          <li>Question 8</li>
+          <li>Question 9</li>
+          <li>Question 10</li>
+        </ol>
+        </div>
+      </aside>
+    </div>
+    <script src="../node_modules/jquery/dist/jquery.js"></script>
+    <script src="index.js"></script
+  </body>
+</html>
