@@ -53,5 +53,8 @@
     "mocha": true,
     "node": true,
     "jquery": true
+  },
+  "devDependencies": {
+    "nodemon": "^1.11.0"
   }
 }
