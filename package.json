@@ -23,6 +23,7 @@
   "scripts": {
     "test": "yarn run standard && yarn run mocha",
     "lint": "standard --fix --env mocha",
+    "dev": "node_modules/.bin/nodemon",
     "start": "node src/",
     "mocha": "mocha test/ --recursive"
   },
