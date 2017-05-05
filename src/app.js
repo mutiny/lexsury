@@ -32,14 +32,6 @@ app.use('/', feathers.static(app.get('public')))
 // Set up Plugins and providers
 app.configure(hooks())
 app.configure(rest())
-app.configure(socketio(function (io) {
-  io.on('connection', function (socket) {
-    console.log('Client connected')
-    socket.on('questionAsked', function (question) {
-      io.emit('questionAsked', question)
-    })
-  })
-}))
 
 // Set up our services (see `services/index.js`)
 app.configure(services)
@@ -47,4 +39,14 @@ app.configure(services)
 app.configure(middleware)
 app.hooks(appHooks)
 
+app.configure(socketio(function (io) {
+  io.on('connection', function (socket) {
+    console.log('Client connected')
+    socket.on('questionAsked', function (question) {
+      app.service('questions').create(question)
+        .then(messages => console.log(messages))
+      io.emit('questionAsked', question) // TODO Invoke only on validation
+    })
+  })
+}))
 module.exports = app
