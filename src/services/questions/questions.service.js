@@ -17,10 +17,12 @@ module.exports = function () {
 
   // Get our initialized service so that we can register hooks and filters
   const service = app.service('questions')
-
+  service.on('created', message => console.log('created', message)) // DEBUG
+  service.on('updated', message => console.log('updated', message)) // DEBUG
   service.hooks(hooks)
 
   if (service.filter) {
+    // TODO
     service.filter(filters)
   }
 }
