@@ -22,7 +22,6 @@ module.exports = function () {
   service.hooks(hooks)
 
   if (service.filter) {
-    // TODO
     service.filter(filters)
   }
 }
