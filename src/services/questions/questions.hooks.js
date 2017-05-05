@@ -4,13 +4,7 @@ module.exports = {
     all: [],
     find: [],
     get: [],
-    create: [
-      function notEmpty (hook) {
-        if (hook.data.text.trim() === '') {
-          throw new Error('Question cannot be empty')
-        }
-      }
-    ],
+    create: [ ],
     update: [],
     patch: [],
     remove: []

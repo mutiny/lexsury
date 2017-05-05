@@ -32,7 +32,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "[\n\t{\n\t\"author\"   : \"test_author_name\",\n\t\"question\" : \"test_question_string\"\n\t},\n\t{\n\t\"author\"   : \"test_author_name1\",\n\t\"question\" : \"test_question_string1\"\n\t},\n\t{\n\t\"author\"   : \"test_author_name2\",\n\t\"question\" : \"test_question_string1\"\n\t},\n\t{\n\t\"author\"   : \"test_author_name3\",\n\t\"question\" : \"test_question_string3\"\n\t},\n\t{\n\t\"author\"   : \"test_author_name4\",\n\t\"question\" : \"test_question_string4\"\n\t},\n\t{\n\t\"author\"   : \"test_author_name5\",\n\t\"question\" : \"test_question_string5\"\n\t},\n\t{\n\t\"author\"   : \"test_author_name6\",\n\t\"question\" : \"test_question_string6\"\n\t},\n\t{\n\t\"author\"   : \"test_author_name7\",\n\t\"question\" : \"test_question_string7\"\n\t},\n\t{\n\t\"author\"   : \"test_author_name8\",\n\t\"question\" : \"test_question_string8\"\n\t},\n\t{\n\t\"author\"   : \"test_author_name9\",\n\t\"question\" : \"test_question_string9\"\n\t}\n\t\n]"
+					"raw": "[\n\t{\n\t\"author\"   : \"test_author_name\",\n\t\"text\" : \"test_question_string\"\n\t},\n\t{\n\t\"author\"   : \"test_author_name1\",\n\t\"text\" : \"test_question_string1\"\n\t},\n\t{\n\t\"author\"   : \"test_author_name2\",\n\t\"text\" : \"test_question_string1\"\n\t},\n\t{\n\t\"author\"   : \"test_author_name3\",\n\t\"text\" : \"test_question_string3\"\n\t},\n\t{\n\t\"author\"   : \"test_author_name4\",\n\t\"text\" : \"test_question_string4\"\n\t},\n\t{\n\t\"author\"   : \"test_author_name5\",\n\t\"text\" : \"test_question_string5\"\n\t},\n\t{\n\t\"author\"   : \"test_author_name6\",\n\t\"text\" : \"test_question_string6\"\n\t},\n\t{\n\t\"author\"   : \"test_author_name7\",\n\t\"text\" : \"test_question_string7\"\n\t},\n\t{\n\t\"author\"   : \"test_author_name8\",\n\t\"text\" : \"test_question_string8\"\n\t},\n\t{\n\t\"author\"   : \"test_author_name9\",\n\t\"text\" : \"test_question_string9\"\n\t}\n\t\n]"
 				},
 				"description": "Post 10 questions "
 			},
@@ -65,6 +65,72 @@
 				],
 				"body": {},
 				"description": "Retrieve some questions"
+			},
+			"response": []
+		},
+		{
+			"name": "Empty Question Post",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"tests[\"Empty POST fails with 500\"] = responseCode.code === 500;",
+							"tests[\"Error type is emptiness\"] = jsonData.message === \"Question cannot be empty\";"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "http://localhost:3030/questions",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"author\" : \"test_author\",\n\t\"text\" : \"\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Empty Question Array Post",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"tests[\"Empty POST fails with 500\"] = responseCode.code === 500",
+							"tests[\"Error type is emptiness\"] = jsonData.message === \"Question cannot be empty\";"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "http://localhost:3030/questions",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[\n\t{\n\t\"author\"   : \"test_author_name\",\n\t\"text\" : \"test_question_string\"\n\t},\n\t{\n\t\"author\"   : \"test_author_name1\",\n\t\"text\" : \"test_question_string1\"\n\t},\n\t{\n\t\"author\"   : \"test_author_name2\",\n\t\"text\" : \"test_question_string1\"\n\t},\n\t{\n\t\"author\"   : \"test_author_name3\",\n\t\"text\" : \"\"\n\t},\n\t{\n\t\"author\"   : \"test_author_name4\",\n\t\"text\" : \"test_question_string4\"\n\t},\n\t{\n\t\"author\"   : \"test_author_name5\",\n\t\"text\" : \"test_question_string5\"\n\t},\n\t{\n\t\"author\"   : \"test_author_name6\",\n\t\"text\" : \"test_question_string6\"\n\t},\n\t{\n\t\"author\"   : \"test_author_name7\",\n\t\"text\" : \"test_question_string7\"\n\t},\n\t{\n\t\"author\"   : \"test_author_name8\",\n\t\"text\" : \"test_question_string8\"\n\t},\n\t{\n\t\"author\"   : \"test_author_name9\",\n\t\"text\" : \"test_question_string9\"\n\t}\n\t\n]"
+				},
+				"description": ""
 			},
 			"response": []
 		}

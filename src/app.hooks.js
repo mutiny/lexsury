@@ -1,12 +1,16 @@
 // Application hooks that run for every service
 const logger = require('./hooks/logger')
-
+const validate = require('./hooks/validate')
+const censor = require('./hooks/censor')
 module.exports = {
   before: {
-    all: [],
+    all: [logger()],
     find: [],
     get: [],
-    create: [],
+    create: [
+      validate(),
+      censor()
+    ],
     update: [],
     patch: [],
     remove: []
