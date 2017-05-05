@@ -1,0 +1,72 @@
+{
+	"variables": [],
+	"info": {
+		"name": "QAjs",
+		"_postman_id": "c5954a9f-6768-d0fc-efcf-64535e9c4a8f",
+		"description": "https://docs.feathersjs.com/api/databases/querying.html",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Test Questions List",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Successful POST request\"] = responseCode.code === 201 || responseCode.code === 202"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "localhost:3030/questions",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[\n\t{\n\t\"author\"   : \"test_author_name\",\n\t\"question\" : \"test_question_string\"\n\t},\n\t{\n\t\"author\"   : \"test_author_name1\",\n\t\"question\" : \"test_question_string1\"\n\t},\n\t{\n\t\"author\"   : \"test_author_name2\",\n\t\"question\" : \"test_question_string1\"\n\t},\n\t{\n\t\"author\"   : \"test_author_name3\",\n\t\"question\" : \"test_question_string3\"\n\t},\n\t{\n\t\"author\"   : \"test_author_name4\",\n\t\"question\" : \"test_question_string4\"\n\t},\n\t{\n\t\"author\"   : \"test_author_name5\",\n\t\"question\" : \"test_question_string5\"\n\t},\n\t{\n\t\"author\"   : \"test_author_name6\",\n\t\"question\" : \"test_question_string6\"\n\t},\n\t{\n\t\"author\"   : \"test_author_name7\",\n\t\"question\" : \"test_question_string7\"\n\t},\n\t{\n\t\"author\"   : \"test_author_name8\",\n\t\"question\" : \"test_question_string8\"\n\t},\n\t{\n\t\"author\"   : \"test_author_name9\",\n\t\"question\" : \"test_question_string9\"\n\t}\n\t\n]"
+				},
+				"description": "Post 10 questions "
+			},
+			"response": []
+		},
+		{
+			"name": "Retrieve Questions",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"tests[\"Get success\"] = responseCode.code === 200;",
+							"tests[\"There are some questions\"] = jsonData.data.length >= 1"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "http://localhost:3030/questions",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {},
+				"description": "Retrieve some questions"
+			},
+			"response": []
+		}
+	]
+}
