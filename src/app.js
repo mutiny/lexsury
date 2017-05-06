@@ -45,7 +45,12 @@ app.configure(socketio(function (io) {
     socket.on('questionAsked', function (question) {
       app.service('questions').create(question)
         .then(messages => console.log(messages))
-      io.emit('questionAsked', question) // TODO Invoke only on validation
+      app.service('questions').on('created', () => {
+        app.service('questions').find({ query: { $limit: 15, $sort: {votes: -1} } })
+          .then((something) => {
+            console.log('resolved')
+          }).catch(() => console.log('caught :( '))
+      })
     })
   })
 }))

@@ -56,36 +56,14 @@
                             </form>
                         </div>
                         <ol id="questions">
-
-
-
-
                         </ol>
-
                     </div>
-
                 </div>
-
             </div>
-
         </div>
-
     </div>
-    <script>
-        $(document).ready(function() {
-            var socket = io()
-            $('#q-form').submit(() => {
-                socket.emit('questionAsked', $('#question').val())
-                $('#question').val('')
-                return false
-            })
-            socket.on('questionAsked', function(question) {
-                $('#questions').append($('<li>').text(question))
-            })
-        })
-    </script>
-    <script src="/socket.io/socket.io.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.js" integrity="sha256-Cr6N6zNN4bp0OwTQOZ6Z66M2r+2dpy/EwKMCyZ+SOMg=" crossorigin="anonymous"></script>
 
     <script src="https://unpkg.com/vue"></script>
