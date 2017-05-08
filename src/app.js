@@ -42,6 +42,13 @@ app.hooks(appHooks)
 app.configure(socketio(function (io) {
   io.on('connection', function (socket) {
     console.log('Client connected')
+
+    // Send pre-existing questions to new clients
+    app.service('questions')
+    .find({ query: { $limit: 15, $sort: {votes: -1} } })
+    .then(questions => socket.emit('newQuestion', questions.data))
+
+    // Attempt to create entry for new questions, then broadcast questions to clients
     socket.on('questionAsked', function (question) {
       app.service('questions')
         .create(question)
