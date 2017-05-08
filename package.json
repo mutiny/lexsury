@@ -21,10 +21,12 @@
     "yarn": ">= 0.18.0"
   },
   "scripts": {
-    "build": "webpack",
+    "test": "yarn run standard && yarn run mocha",
+    "lint": "standard --fix --env mocha",
     "dev": "node_modules/.bin/nodemon",
-    "start": "NODE_ENV=production node src/",
-    "test": "mocha test/ --recursive"
+    "start": "node src/",
+    "mocha": "mocha test/ --recursive",
+    "prod": "NODE_ENV=production nodemon"
   },
   "dependencies": {
     "babel-plugin-transform-runtime": "^6.23.0",
