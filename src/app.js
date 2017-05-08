@@ -49,18 +49,32 @@ app.configure(socketio(function (io) {
       .create({username: 'Anonymous', socketid: socket.id})
       .then(() => console.log('User added'))
 
+    // Send pre-existing user schema to new clients
+    function emitUserList () {
+      app.service('users')
+      .find({query: {$limit: 100}})
+      .then(users => {
+        let usersKey = {}
+        users.data.forEach(user => { usersKey[user.socketid] = user.username })
+        socket.emit('newUser', usersKey)
+        console.log(`Announced new users`)
+        // Announce arrival to other users (either now or on ask..)
+        socket.broadcast.emit('newUser', usersKey)
+      })
+    }
+    emitUserList()
+
     // Send pre-existing questions to new clients
     app.service('questions')
     .find({ query: { $limit: 15, $sort: {votes: -1} } })
     .then(questions => socket.emit('newQuestion', questions.data))
 
-    // Send pre-existing user schema to new clients
-    app.service('users')
-    .find({query: {$limit: 100}})
-    .then(users => {
-      let usersKey = {}
-      users.data.forEach(user => { usersKey[user.socketid] = user.username })
-      socket.emit('newUser', usersKey)
+    // Update username
+    socket.on('nameChanged', function (newUsername) {
+      console.log('Updating username for ' + socket.id)
+      app.service('users')
+        .update(socket.id, {username: newUsername})
+        .then(emitUserList)
     })
 
     // Attempt to create entry for new questions, then broadcast questions to clients

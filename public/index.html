@@ -21,6 +21,9 @@
     v-on:keyup.enter="addNewQuestion"
     placeholder="Ask the presenter a question"
   >
+  <input
+    v-model.lazy="username"
+  >
   <ul>
     <li
       is="question-item"
