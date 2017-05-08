@@ -1,4 +1,3 @@
 {
-  "host": "lecsur-app.feathersjs.com",
-  "port": "PORT"
+  "host": "lecsur-app.feathersjs.com"
 }

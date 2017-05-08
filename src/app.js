@@ -43,14 +43,13 @@ app.configure(socketio(function (io) {
   io.on('connection', function (socket) {
     console.log('Client connected')
     socket.on('questionAsked', function (question) {
-      app.service('questions').create(question)
-        .then(messages => console.log(messages))
-      app.service('questions').on('created', () => {
-        app.service('questions').find({ query: { $limit: 15, $sort: {votes: -1} } })
-          .then((something) => {
-            console.log('resolved')
-          }).catch(() => console.log('caught :( '))
-      })
+      app.service('questions')
+        .create(question)
+        .then(() => {
+          app.service('questions')
+          .find({ query: { $limit: 15, $sort: {votes: -1} } })
+          .then(questions => socket.broadcast.emit('newQuestion', questions.data))
+        })
     })
   })
 }))

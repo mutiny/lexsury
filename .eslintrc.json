@@ -5,7 +5,7 @@
     "mocha": true,
     "browser": true
   },
-  "extends": "eslint:recommended",
+  "extends": "standard",
   "rules": {
     "indent": [
       "error",
@@ -23,5 +23,8 @@
       "error",
       "always"
     ]
+  },
+  "ecmaFeatures": {
+    "modules": true
   }
 }
