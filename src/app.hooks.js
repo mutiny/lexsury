@@ -7,10 +7,7 @@ module.exports = {
     all: [logger()],
     find: [],
     get: [],
-    create: [
-      validate(),
-      censor()
-    ],
+    create: [],
     update: [],
     patch: [],
     remove: []

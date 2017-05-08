@@ -25,7 +25,7 @@
     <li
       is="question-item"
       v-for="(question, index) in questions"
-      v-bind:key="question.id"
+      v-bind:key="question.author"
       v-bind:author="question.author"
       v-bind:qtext="question.text"
       v-bind:votes="question.votes"
