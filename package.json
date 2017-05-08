@@ -22,7 +22,8 @@
   },
   "scripts": {
     "dev": "node_modules/.bin/nodemon",
-    "build": "webpack",
+    "build": "webpack --progress",
+    "heroku-postbuild": "webpack -p --progress",
     "start": "NODE_ENV=production node src/",
     "test": "mocha test/ --recursive",
     "prod": "nodemon"
