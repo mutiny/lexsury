@@ -54,6 +54,15 @@ app.configure(socketio(function (io) {
     .find({ query: { $limit: 15, $sort: {votes: -1} } })
     .then(questions => socket.emit('newQuestion', questions.data))
 
+    // Send pre-existing user schema to new clients
+    app.service('users')
+    .find({query: {$limit: 100}})
+    .then(users => {
+      let usersKey = {}
+      users.data.forEach(user => { usersKey[user.socketid] = user.username })
+      socket.emit('newUser', usersKey)
+    })
+
     // Attempt to create entry for new questions, then broadcast questions to clients
     socket.on('questionAsked', function (question) {
       console.log(`New question asked: ${question.author}`)

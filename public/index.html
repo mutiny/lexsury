@@ -26,7 +26,7 @@
       is="question-item"
       v-for="(question, index) in questions"
       v-bind:key="question.author"
-      v-bind:author="question.author"
+      v-bind:author="users[question.author]"
       v-bind:qtext="question.text"
       v-bind:votes="question.votes"
       v-on:remove="questions.splice(index, 1)"
