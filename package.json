@@ -21,16 +21,15 @@
     "yarn": ">= 0.18.0"
   },
   "scripts": {
-    "test": "yarn run standard && yarn run mocha",
-    "lint": "standard --fix --env mocha",
+    "build": "webpack",
     "dev": "node_modules/.bin/nodemon",
-    "start": "node src/",
-    "mocha": "mocha test/ --recursive",
-    "prod": "NODE_ENV=production nodemon"
+    "start": "NODE_ENV=production node src/",
+    "test": "mocha test/ --recursive"
   },
   "dependencies": {
     "babel-plugin-transform-runtime": "^6.23.0",
     "babel-preset-stage-0": "^6.24.1",
+    "bad-words": "^1.5.1",
     "body-parser": "^1.17.1",
     "bootstrap": "^3.3.7",
     "compression": "^1.6.2",
@@ -65,7 +64,6 @@
     "babel-core": "^6.24.1",
     "babel-loader": "^7.0.0",
     "babel-preset-env": "^1.4.0",
-    "bad-words": "^1.5.1",
     "css-loader": "^0.28.1",
     "nodemon": "^1.11.0",
     "postcss-loader": "^1.3.3",
