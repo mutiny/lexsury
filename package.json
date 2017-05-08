@@ -22,6 +22,7 @@
   },
   "scripts": {
     "dev": "node_modules/.bin/nodemon",
+    "build": "webpack",
     "start": "NODE_ENV=production node src/",
     "test": "mocha test/ --recursive",
     "prod": "nodemon"
