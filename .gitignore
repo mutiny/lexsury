@@ -109,4 +109,4 @@ $RECYCLE.BIN/
 
 # Others
 data/
-public/js
+build/
