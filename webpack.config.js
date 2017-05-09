@@ -1,5 +1,7 @@
 const webpack = require('webpack')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
+let FaviconsWebpackPlugin = require('favicons-webpack-plugin')
 let extractHtml = new ExtractTextPlugin('[name].html')
 let extractStyles = new ExtractTextPlugin('[name].css')
 
@@ -28,7 +30,7 @@ module.exports = {
       },
       {
         test: /\.pug$/,
-        loaders: ['file-loader?name=[name].html&outputPath=./', 'pug-html-loader?pretty&exports=false']
+        loaders: ['pug-loader']
       },
       {
         test: /\.css$/,
@@ -46,7 +48,11 @@ module.exports = {
       jQuery: 'jquery-slim',
       'window.jQuery': 'jquery'
     }),
+    new HtmlWebpackPlugin({
+      template: 'app/index.pug'
+    }),
     extractStyles,
-    extractHtml
+    extractHtml,
+    new FaviconsWebpackPlugin('./app/assets/favicon.png')
   ]
 }
