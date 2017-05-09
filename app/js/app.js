@@ -1,6 +1,6 @@
+/* global Vue */
 import { Socket } from './sockets'
 export const App = function () {
-  console.log('this is: ' + this)
   Vue.component('question-item', {
     template: `
       <li>

@@ -57,7 +57,7 @@ app.configure(socketio(function (io) {
         let usersKey = {}
         users.data.forEach(user => { usersKey[user.socketid] = user.username })
         socket.emit('newUser', usersKey)
-        console.log(`Announced new users`)
+        console.log(`Announcing new users`)
         // Announce arrival to other users (either now or on ask..)
         socket.broadcast.emit('newUser', usersKey)
       })
