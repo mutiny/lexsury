@@ -1,5 +1,4 @@
 const path = require('path')
-const favicon = require('serve-favicon')
 const compress = require('compression')
 const cors = require('cors')
 const helmet = require('helmet')
@@ -19,13 +18,11 @@ const app = feathers()
 
 // Load app configuration
 app.configure(configuration(path.join(__dirname, '..')))
-// Enable CORS, security, compression, favicon and body parsing
 app.use(cors())
 app.use(helmet())
 app.use(compress())
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
-app.use(favicon(path.join(app.get('public'), 'favicon.ico')))
 // Host the public folder
 app.use('/', feathers.static(app.get('public')))
 
@@ -57,7 +54,7 @@ app.configure(socketio(function (io) {
         let usersKey = {}
         users.data.forEach(user => { usersKey[user.socketid] = user.username })
         socket.emit('newUser', usersKey)
-        console.log(`Announced new users`)
+        console.log(`Announcing new users`)
         // Announce arrival to other users (either now or on ask..)
         socket.broadcast.emit('newUser', usersKey)
       })

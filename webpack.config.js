@@ -1,16 +1,21 @@
 const webpack = require('webpack')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+const ExtractTextPlugin = require('extract-text-webpack-plugin')
+let FaviconsWebpackPlugin = require('favicons-webpack-plugin')
+let extractHtml = new ExtractTextPlugin('[name].html')
+let extractStyles = new ExtractTextPlugin('[name].css')
+
 // var Uglify = webpack.optimize.UglifyJsPlugin
 const path = require('path')
-
+const PATHS = {
+  app: path.join(__dirname, 'app'),
+  build: path.join(__dirname, 'build')
+}
 module.exports = {
-  entry: [
-    './lib/index.js'
-  ],
+  entry: PATHS.app,
   output: {
-    filename: 'app.js',
-    path: path.resolve(__dirname, 'public/js'),
-    // ??? needed for HMR (also devServer.publicPath)
-    publicPath: '/'
+    path: PATHS.build,
+    filename: '[name].js'
   },
   module: {
     loaders: [
@@ -22,15 +27,18 @@ module.exports = {
           presets: ['stage-0', 'env'],
           plugins: ['transform-runtime']
         }
-
-      }, {
+      },
+      {
+        test: /\.pug$/,
+        loaders: ['pug-loader']
+      },
+      {
         test: /\.css$/,
         exclude: /node_modules/,
-        loaders: [
-          'style-loader',
-          'css-loader?modules&importLoaders=1',
-          'postcss-loader'
-        ]
+        use: extractStyles.extract({
+          fallback: 'style-loader',
+          use: 'css-loader'
+        })
       }
     ]
   },
@@ -39,6 +47,12 @@ module.exports = {
       $: 'jQuery-slim',
       jQuery: 'jquery-slim',
       'window.jQuery': 'jquery'
-    })
+    }),
+    new HtmlWebpackPlugin({
+      template: 'app/index.pug'
+    }),
+    extractStyles,
+    extractHtml,
+    new FaviconsWebpackPlugin('./app/assets/favicon.png')
   ]
 }
