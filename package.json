@@ -22,11 +22,8 @@
   },
   "scripts": {
     "dev": "node_modules/.bin/nodemon",
-    "build": "node_modules/.bin/webpack --progress",
-    "heroku-postbuild": "node_modules/.bin/webpack -p --progress",
     "start": "NODE_ENV=production node src/",
-    "test": "mocha test/ --recursive",
-    "watch": "node_modules/.bin/webpack --watch"
+    "test": "mocha test/ --recursive"
   },
   "dependencies": {
     "babel-core": "^6.24.1",

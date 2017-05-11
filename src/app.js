@@ -77,12 +77,14 @@ app.configure(socketio(function (io) {
     // Attempt to create entry for new questions, then broadcast questions to clients
     socket.on('questionAsked', function (question) {
       console.log(`New question asked: ${question.author}`)
+      // Tag the author by their socket ID
+      question.author = socket.id
       app.service('questions')
         .create(question)
         .then(() => {
           app.service('questions')
           .find({ query: { $limit: 15, $sort: {votes: -1} } })
-          .then(questions => socket.broadcast.emit('newQuestion', questions.data))
+          .then(questions => io.emit('newQuestion', questions.data))
         })
     })
     // On disconnect, removes user from memory
