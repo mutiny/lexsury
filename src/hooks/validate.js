@@ -4,8 +4,8 @@
 module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
   return function (hook) {
     if (hook.data.text.trim() === '') {
-      throw new Error('Question cannot be empty')
+      throw new Error('Question cannot be empty');
     }
-    return Promise.resolve(hook)
-  }
-}
+    return Promise.resolve(hook);
+  };
+};
