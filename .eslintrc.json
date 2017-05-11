@@ -2,8 +2,7 @@
   "env": {
     "es6": true,
     "node": true,
-    "mocha": true,
-    "browser": true
+    "mocha": true
   },
   "extends": "standard",
   "rules": {
@@ -22,6 +21,9 @@
     "semi": [
       "error",
       "always"
+    ],
+    "comma-dangle": [
+      "always-multiline"
     ]
   },
   "ecmaFeatures": {
