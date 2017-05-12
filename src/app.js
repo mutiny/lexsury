@@ -43,13 +43,13 @@ app.configure(socketio(function (io) {
     // Create new user
     socket.emit('assignment', socket.id);
     app.service('users')
-      .create({username: 'Anonymous', socketid: socket.id})
+      .create({ username: 'Anonymous', socketid: socket.id })
       .then(() => console.log('User added'));
 
     // Send pre-existing user schema to new clients
-    function emitUserList () {
+    function emitUserList() {
       app.service('users')
-      .find({query: {$limit: 100}})
+      .find({ query: { $limit: 100 } })
       .then(users => {
         let usersKey = {};
         users.data.forEach(user => { usersKey[user.socketid] = user.username; });
@@ -63,14 +63,14 @@ app.configure(socketio(function (io) {
 
     // Send pre-existing questions to new clients
     app.service('questions')
-    .find({ query: { $limit: 15, $sort: {votes: -1} } })
+    .find({ query: { $limit: 15, $sort: { votes: -1 } } })
     .then(questions => socket.emit('newQuestion', questions.data));
 
     // Update username
     socket.on('nameChanged', function (newUsername) {
       console.log('Updating username for ' + socket.id);
       app.service('users')
-        .update(socket.id, {username: newUsername})
+        .update(socket.id, { username: newUsername })
         .then(emitUserList);
     });
 
@@ -83,7 +83,7 @@ app.configure(socketio(function (io) {
         .create(question)
         .then(() => {
           app.service('questions')
-          .find({ query: { $limit: 15, $sort: {votes: -1} } })
+          .find({ query: { $limit: 15, $sort: { votes: -1 } } })
           .then(questions => io.emit('newQuestion', questions.data));
         });
     });

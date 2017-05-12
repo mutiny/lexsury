@@ -3,7 +3,7 @@ const createService = require('feathers-memory');
 const hooks = require('./users.hooks');
 const filters = require('./users.filters');
 
-module.exports = function () {
+module.exports = function initUserService() {
   const app = this;
   const paginate = app.get('paginate');
 

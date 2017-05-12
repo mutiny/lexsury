@@ -12,7 +12,7 @@ module.exports = {
   },
 
   after: {
-    all: [ logger() ],
+    all: [logger()],
     find: [],
     get: [],
     create: [],
@@ -22,7 +22,7 @@ module.exports = {
   },
 
   error: {
-    all: [ logger() ],
+    all: [logger()],
     find: [],
     get: [],
     create: [],
