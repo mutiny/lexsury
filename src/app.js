@@ -78,9 +78,8 @@ app.configure(socketio(function (io) {
     socket.on('questionAsked', function (question) {
       console.log(`New question asked: ${question.author}`);
       // Tag the author by their socket ID
-      question.author = socket.id;
       app.service('questions')
-        .create(question)
+        .create(Object.assign(question, { author: socket.id, votes: 0 }))
         .then(() => {
           app.service('questions')
           .find({ query: { $limit: 15, $sort: { votes: -1 } } })

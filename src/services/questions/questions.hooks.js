@@ -1,4 +1,3 @@
-const addVote = require('../../hooks/add-vote');
 const censor = require('../../hooks/censor');
 const validate = require('../../hooks/validate');
 module.exports = {
@@ -6,8 +5,8 @@ module.exports = {
     all: [],
     find: [],
     get: [],
-    create: [addVote(), censor(), validate()],
-    update: [addVote(), censor(), validate()],
+    create: [censor(), validate()],
+    update: [censor(), validate()],
     patch: [],
     remove: [],
   },
