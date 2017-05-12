@@ -73,31 +73,28 @@ app.configure(socketio(function (io) {
         .update(socket.id, { username: newUsername })
         .then(emitUserList);
     });
-
+    function emitQuestions() {
+      app.service('questions')
+      .find({ query: { $limit: 15, $sort: { votes: -1 } } })
+      .then(questions => io.emit('newQuestion', questions.data));
+    }
     // Attempt to create entry for new questions, then broadcast questions to clients
     socket.on('questionAsked', function (question) {
-      console.log(`New question asked: ${question.author}`);
+      console.log(`New question asked: ${socket.id}`);
       // Tag the author by their socket ID
       app.service('questions')
         .create(Object.assign(question, { author: socket.id, votes: 0 }))
-        .then(() => {
+        .then(emitQuestions);
+    });
+    socket.on('voteCasted', function (vote) {
+      console.log('Vote received: ' + vote.id + ' ' + vote.val);
+      app.service('questions').get(vote.id)
+        .then(function handleVote(question) {
           app.service('questions')
-          .find({ query: { $limit: 15, $sort: { votes: -1 } } })
-          .then(questions => io.emit('newQuestion', questions.data));
+            .patch(vote.id, { votes: (question.votes + vote.val) })
+            .then(emitQuestions);
         });
     });
-    // On disconnect, removes user from memory
-/*    socket.on('disconnect', function () {
-      console.log('User disconnected. Attempting to remove ' + socket.id)
-      app.service('users')
-      .find({
-        query: {socketid: socket.id}
-      }).then(user => {
-        app.service('users')
-          .remove(user.data[0].id)
-          .then(() => console.log('Removed user: ' + socket.id))
-      })
-    }) */
   });
 }));
 module.exports = app;
