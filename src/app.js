@@ -39,11 +39,12 @@ app.hooks(appHooks);
 app.configure(socketio(function (io) {
   io.on('connection', function (socket) {
     console.log('Client connected');
+    let clientId = socket.id;
 
     // Create new user
-    socket.emit('assignment', socket.id);
+    socket.emit('assignment', clientId);
     app.service('users')
-      .create({ username: 'Anonymous', socketid: socket.id })
+      .create({ username: 'Anonymous', socketid: clientId })
       .then(() => console.log('User added'));
 
     // Send pre-existing user schema to new clients
@@ -68,30 +69,40 @@ app.configure(socketio(function (io) {
 
     // Update username
     socket.on('nameChanged', function (newUsername) {
-      console.log('Updating username for ' + socket.id);
+      console.log('Updating username for ' + clientId);
       app.service('users')
-        .update(socket.id, { username: newUsername })
+        .update(clientId, { username: newUsername })
         .then(emitUserList);
     });
+
     function emitQuestions() {
+      console.log('Emit questions');
       app.service('questions')
       .find({ query: { $limit: 15, $sort: { votes: -1 } } })
       .then(questions => io.emit('newQuestion', questions.data));
     }
+
     // Attempt to create entry for new questions, then broadcast questions to clients
     socket.on('questionAsked', function (question) {
-      console.log(`New question asked: ${socket.id}`);
+      console.log(`New question asked: ${clientId}`);
       // Tag the author by their socket ID
       app.service('questions')
-        .create(Object.assign(question, { author: socket.id, votes: 0 }))
+        .create(Object.assign(question, { author: clientId, votes: [] }))
         .then(emitQuestions);
     });
-    socket.on('voteCasted', function (vote) {
-      console.log('Vote received: ' + vote.id + ' ' + vote.val);
+    // Vote handling event. Adds new votes or removes previous votes
+    socket.on('voteCast', function (vote) {
       app.service('questions').get(vote.id)
         .then(function handleVote(question) {
+          let votes = question.votes;
+          let voted = (votes.indexOf(clientId));
+
+          if (voted === -1) {
+            votes.push(clientId);
+          } else { votes.splice(voted, 1); }
+
           app.service('questions')
-            .patch(vote.id, { votes: (question.votes + vote.val) })
+            .patch(question.id, { votes: votes })
             .then(emitQuestions);
         });
     });
