@@ -28,6 +28,10 @@
     ]
   },
   "ecmaFeatures": {
-    "modules": true
-  }
+    "modules": true,
+    "spread": true
+  },
+  "parserOptions": {
+        "sourceType": "module"
+    }
 }
