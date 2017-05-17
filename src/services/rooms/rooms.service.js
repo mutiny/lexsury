@@ -10,6 +10,7 @@ module.exports = function () {
   const options = {
     name: 'rooms',
     paginate,
+    id: 'name',
   };
 
   // Initialize our service with any options it requires

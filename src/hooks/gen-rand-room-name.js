@@ -32,6 +32,6 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
     const noun = nouns[random(nouns.length)];
     const num = random(1000) + 1;
     let randUrl = adj + noun + num;
-    Object.assign(hook.data, { name: randUrl, users: [], options: {} });
+    Object.assign(hook.data, { name: randUrl, users: [], questions: [], options: {} });
   };
 };
