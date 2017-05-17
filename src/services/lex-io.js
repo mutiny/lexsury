@@ -72,15 +72,14 @@ module.exports = function (io) {
         console.log(`New question asked: ${clientId}`);
         app.service('questions')
         .create(Object.assign(question, { author: clientId, votes: [], room: namespace }))
-        .catch(() => console.log('Error creating new question.'));
+          .then(() => emitQuestions());
       });
 
       function castVote(vote) {
         app.service('rooms')
         .get(namespace)
-        .then( room => {
+        .then(room => {
           let roomqs = room.questions;
-
         });
         //   function handleVote(question) {
         //   let votes = question.votes;
