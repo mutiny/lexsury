@@ -22,7 +22,7 @@ module.exports = function (io) {
 
       // Send pre-existing user schema to new clients
       function announceUsers() {
-        app.service('users').find({ query: { $limit: 100 } }).then(users => {
+        app.service('users').find({ query: { room: namespace, $limit: 100 } }).then(users => {
           let usersKey = {};
           users.data.forEach(user => {
             usersKey[user.socketid] = user.username;
@@ -37,7 +37,10 @@ module.exports = function (io) {
       // Send pre-existing questions to new clients
       function debrief() {
         app.service('questions')
-        .find({ query: { $limit: 15, $sort: { votes: -1 } } })
+        .find({ query: { room: namespace,
+          $limit: 15,
+          $sort: { votes: -1 },
+        } })
         .then(questions => socket.emit('newQuestion', questions.data));
       }
 
@@ -56,7 +59,11 @@ module.exports = function (io) {
       function emitQuestions() {
         console.log('Emit questions');
         app.service('questions')
-        .find({ query: { $limit: 15, $sort: { votes: -1 } } })
+        .find({ query: {
+          room: namespace,
+          $limit: 15,
+          $sort: { votes: -1 },
+        } })
         .then(questions => nsp.emit('newQuestion', questions.data));
       }
 
