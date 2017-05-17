@@ -3,8 +3,7 @@
   "port": 3030,
   "public": "../public/",
   "paginate": {
-    "default": 20,
-    "max": 50
-  },
-  "mongodb": "mongodb://localhost:27017/lexsur"
+    "default": 100,
+    "max": 500
+  }
 }
