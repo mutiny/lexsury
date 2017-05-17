@@ -3,27 +3,29 @@ Modern audience interaction
 
 ## > Currently in active development <
 
-## [Demo](http://lexsur.herokuapp.com)
+ [Demo](http://lexsur.herokuapp.com)
 
 ## If you'd like to contribute, checkout our [Trello Board](https://trello.com/b/mffBye8Z) and come [hangout with us](https://discord.gg/vJjgKT7)
 
 ## Building
-> Lexsur is served using Node.js. On MacOS:
+
+- Lexsur is served using Node.js. On MacOS:
 
 `brew install node`
 
-> Dependencies can then be installed using NPM (packaged with Node)
->from within the root directory:
-`npm install`
+- Dependencies can then be installed using NPM (packaged with Node) or Yarn
 
-> Dev server with reloading
+`$ npm install`
+`$ yarn`
 
-`npm run dev`
+- Dev server with reloading
 
-> Mocha tests
+`$ npm run dev`
 
-`npm run test`
+- Mocha tests
 
-> Production mode server
+`$ npm run test`
 
-`npm run start`
+- Production mode server
+
+`$ npm run start`
