@@ -21,7 +21,7 @@
     "yarn": ">= 0.18.0"
   },
   "scripts": {
-    "dev": "node_modules/.bin/nodemon",
+    "dev": "DEBUG=* node_modules/.bin/nodemon",
     "start": "NODE_ENV=production node src/",
     "test": "mocha test/ --recursive"
   },
