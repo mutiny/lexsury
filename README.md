@@ -15,7 +15,7 @@ Modern audience interaction
 
 - Lexsur is served using Node.js. On MacOS:
 
-`brew install node`
+`$ brew install node`
 
 - Dependencies can then be installed using NPM (packaged with Node) or Yarn
 
@@ -26,10 +26,13 @@ Modern audience interaction
 
 `$ npm run dev`
 
+- Production mode server
+
+`$ npm run start`
+
 - Mocha tests
 
 `$ npm run test`
 
-- Production mode server
-
-`$ npm run start`
+## Client
+- A bundled/minified version of our [React Client](https://github.com/mutiny/lexsur-react-client) is included within `public`
