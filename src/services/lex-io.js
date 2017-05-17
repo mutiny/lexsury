@@ -76,20 +76,26 @@ module.exports = function (io) {
       });
 
       function castVote(vote) {
-        app.service('questions').get(vote.id).then(function handleVote(question) {
-          let votes = question.votes;
-          let voted = (votes.indexOf(clientId));
+        app.service('rooms')
+        .get(namespace)
+        .then( room => {
+          let roomqs = room.questions;
 
-          if (voted === -1) {
-            votes.push(clientId);
-          } else {
-            votes.splice(voted, 1);
-          }
-
-          app.service('questions')
-          .patch(question.id, { votes: votes })
-          .then(emitQuestions);
         });
+        //   function handleVote(question) {
+        //   let votes = question.votes;
+        //   let voted = (votes.indexOf(clientId));
+        //
+        //   if (voted === -1) {
+        //     votes.push(clientId);
+        //   } else {
+        //     votes.splice(voted, 1);
+        //   }
+        //
+        //   app.service('questions')
+        //   .patch(question.id, { votes: votes })
+        //   .then(emitQuestions);
+        // });
       }
 
       socket.on('voteCast', function (vote) {
