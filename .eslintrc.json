@@ -2,10 +2,9 @@
   "env": {
     "es6": true,
     "node": true,
-    "mocha": true,
-    "browser": true
+    "mocha": true
   },
-  "extends": "standard",
+  "extends": "airbnb-base/legacy",
   "rules": {
     "indent": [
       "error",
@@ -22,9 +21,17 @@
     "semi": [
       "error",
       "always"
+    ],
+    "comma-dangle": [
+      "error",
+      "always-multiline"
     ]
   },
   "ecmaFeatures": {
-    "modules": true
-  }
+    "modules": true,
+    "spread": true
+  },
+  "parserOptions": {
+        "sourceType": "module"
+    }
 }

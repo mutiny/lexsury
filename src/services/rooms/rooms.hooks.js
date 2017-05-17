@@ -1,10 +1,11 @@
+const genRandRoomName = require('../../hooks/gen-rand-room-name');
 
 module.exports = {
   before: {
     all: [],
     find: [],
     get: [],
-    create: [],
+    create: [genRandRoomName()],
     update: [],
     patch: [],
     remove: [],

@@ -1,12 +1,12 @@
 const assert = require('assert');
-const addVote = require('../../src/hooks/add-vote');
+const genRandRoomName = require('../../src/hooks/gen-rand-room-name');
 
-describe('\'addVote\' hook', () => {
+describe('\'genRandRoomName\' hook', () => {
   it('runs the hook', () => {
     // A mock hook object
     const mock = {};
     // Initialize our hook with no options
-    const hook = addVote();
+    const hook = genRandRoomName();
 
     // Run the hook function (which returns a promise)
     // and compare the resulting hook object
