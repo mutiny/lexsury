@@ -4,7 +4,7 @@ module.exports = function (io) {
   var app = this;
 
   function createNamespace(newnsp) {
-    const nsp = io.of(`/${newnsp}`);
+    const nsp = io.of(newnsp);
     nsp.on('connection', function (socket) {
       const namespace = newnsp;
       console.log(`Client connected to ${namespace}`);
@@ -37,8 +37,7 @@ module.exports = function (io) {
       // Send pre-existing questions to new clients
       function debrief() {
         app.service('questions')
-        .find({ query: {
-          room: namespace,
+        .find({ query: { room: namespace,
           $limit: 15,
           $sort: { votes: -1 },
         } })
@@ -71,16 +70,9 @@ module.exports = function (io) {
       // Attempt to create entry for new questions, then broadcast questions to clients
       socket.on('questionAsked', function (question) {
         console.log(`New question asked: ${clientId}`);
-        app.service('rooms')
-        .get(namespace)
-        .then(room => {
-          const newQ = Object.assign(question, { author: clientId, votes: [] });
-          app.service('rooms')
-          .patch(namespace, { questions: room.questions.concat(newQ) });
-        });
-        // app.service('questions')
-        // .create(Object.assign(question, { author: clientId, votes: [], room: namespace }))
-        // .then(() => emitQuestions());
+        app.service('questions')
+        .create(Object.assign(question, { author: clientId, votes: [], room: namespace }))
+        .catch(() => console.log('Error creating new question.'));
       });
 
       function castVote(vote) {
@@ -108,6 +100,6 @@ module.exports = function (io) {
 
   app.service('rooms').on('created', room => {
     console.log(`Room created: ${room.name}`);
-    createNamespace(room.name);
+    createNamespace(`/${room.name}`);
   });
 };
