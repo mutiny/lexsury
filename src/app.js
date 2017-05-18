@@ -29,6 +29,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 // Host the public folder
 app.use('/', feathers.static(app.get('public')));
+app.use('/room/*', feathers.static(app.get('public')));
 
 // Set up Plugins and providers
 app.configure(hooks());

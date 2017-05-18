@@ -31,13 +31,17 @@
       "subject": "anonymous",
       "issuer": "feathers",
       "algorithm": "HS256",
-      "expiresIn": "1d"
+      "expiresIn": "1d",
+      "successRedirect": "/",
+      "failureRedirect": "/login"
     },
     "local": {
       "entity": "user",
       "service": "users",
       "usernameField": "email",
-      "passwordField": "password"
+      "passwordField": "password",
+      "successRedirect": "/",
+      "failureRedirect": "/login"
     }
   }
 }

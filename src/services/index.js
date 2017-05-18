@@ -1,5 +1,4 @@
 const questions = require('./questions/questions.service.js');
-// const queue = require('./queue/queue.service.js');
 const users = require('./users/users.service.js');
 const rooms = require('./rooms/rooms.service');
 const queues = require('./queues/queues.service.js');
