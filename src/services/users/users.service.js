@@ -1,16 +1,17 @@
 // Initializes the `users` service on path `/users`
-const createService = require('feathers-memory');
+const createService = require('feathers-rethinkdb');
 const hooks = require('./users.hooks');
 const filters = require('./users.filters');
 
-module.exports = function initUserService() {
+module.exports = function () {
   const app = this;
+  const Model = app.get('rethinkdbClient');
   const paginate = app.get('paginate');
 
   const options = {
     name: 'users',
-    paginate,
-    id: 'socketid',
+    Model,
+    paginate
   };
 
   // Initialize our service with any options it requires

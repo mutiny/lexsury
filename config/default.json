@@ -5,5 +5,39 @@
   "paginate": {
     "default": 100,
     "max": 500
+  },
+  "rethinkdb": {
+    "db": "lexsur",
+    "servers": [
+      {
+        "host": "localhost",
+        "port": "28015"
+      }
+    ]
+  },
+  "authentication": {
+    "secret": "25d8cd13924e3ae53a214f1d5949b363e325b7bd7856e63dfb9697769da998e22f626f5819ccf7d002932714f725691b979d990feb80ace4afc42df8e31790422cc8812b37a632280b1e1af60af54f08f69863d3896058dbec79686f19eae4b44cdce00fba7e08801887850f7bf7fd0a7547f435e61096b4210743b73f4568e5f419beaaa57714093f9b8e6d807224350b7ec984340a4b7e51b85beda4a81345e1487dc38676a6a2977c06c17e7c06046bf20a8ba43e4a2826793d35d36a7bda8e63c8d7b013d14cb9a9384319b643736e86036554fc01550ab305be0787bbf1936382238f6ef938a91960edc51db21123dff9fafed5494d0170586a5c2eddd4",
+    "strategies": [
+      "jwt",
+      "local"
+    ],
+    "path": "/authentication",
+    "service": "users",
+    "jwt": {
+      "header": {
+        "type": "access"
+      },
+      "audience": "https://yourdomain.com",
+      "subject": "anonymous",
+      "issuer": "feathers",
+      "algorithm": "HS256",
+      "expiresIn": "1d"
+    },
+    "local": {
+      "entity": "user",
+      "service": "users",
+      "usernameField": "email",
+      "passwordField": "password"
+    }
   }
 }

@@ -279,6 +279,10 @@ bcrypt-pbkdf@^1.0.0:
   dependencies:
     tweetnacl "^0.14.3"
 
+bcryptjs@^2.3.0:
+  version "2.4.3"
+  resolved "https://registry.yarnpkg.com/bcryptjs/-/bcryptjs-2.4.3.tgz#9ab5627b93e60621ff7cdac5da9733027df1d0cb"
+
 better-assert@~1.0.0:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/better-assert/-/better-assert-1.0.2.tgz#40866b9e1b9e0b55b481894311e68faffaebc522"
@@ -311,7 +315,7 @@ bluebird@2.10.2:
   version "2.10.2"
   resolved "https://registry.yarnpkg.com/bluebird/-/bluebird-2.10.2.tgz#024a5517295308857f14f91f1106fc3b555f446b"
 
-bluebird@^3.5.0:
+"bluebird@>= 3.0.1", bluebird@^3.5.0:
   version "3.5.0"
   resolved "https://registry.yarnpkg.com/bluebird/-/bluebird-3.5.0.tgz#791420d7f551eea2897453a8a77653f96606d67c"
 
@@ -790,13 +794,13 @@ debug@2.6.0:
   dependencies:
     ms "0.7.2"
 
-debug@2.6.1, debug@^2.1.1, debug@^2.2.0, debug@^2.3.2, debug@^2.6.0:
+debug@2.6.1, debug@^2.1.1, debug@^2.2.0, debug@^2.3.1, debug@^2.3.2, debug@^2.6.0:
   version "2.6.1"
   resolved "https://registry.yarnpkg.com/debug/-/debug-2.6.1.tgz#79855090ba2c4e3115cc7d8769491d58f0491351"
   dependencies:
     ms "0.7.2"
 
-debug@2.6.4, debug@^2.3.1:
+debug@2.6.4:
   version "2.6.4"
   resolved "https://registry.yarnpkg.com/debug/-/debug-2.6.4.tgz#7586a9b3c39741c0282ae33445c4e8ac74734fe0"
   dependencies:
@@ -1380,6 +1384,19 @@ feathers-authentication-jwt@^0.3.1:
     lodash.pick "^4.4.0"
     passport-jwt "^2.2.1"
 
+feathers-authentication-local@^0.3.4:
+  version "0.3.4"
+  resolved "https://registry.yarnpkg.com/feathers-authentication-local/-/feathers-authentication-local-0.3.4.tgz#80e02a8bd9257861af3846d46fee19c53bd1814e"
+  dependencies:
+    bcryptjs "^2.3.0"
+    debug "^2.2.0"
+    feathers-errors "^2.4.0"
+    lodash.get "^4.4.2"
+    lodash.merge "^4.6.0"
+    lodash.omit "^4.5.0"
+    lodash.pick "^4.4.0"
+    passport-local "^1.0.0"
+
 feathers-authentication@^1.2.3:
   version "1.2.3"
   resolved "https://registry.yarnpkg.com/feathers-authentication/-/feathers-authentication-1.2.3.tgz#7cbba3a2f228876d5671f3bb8616dd2fabb07934"
@@ -1408,11 +1425,19 @@ feathers-configuration@^0.4.1:
     config "^1.21.0"
     debug "^2.2.0"
 
-feathers-errors@^2.0.1, feathers-errors@^2.2.0, feathers-errors@^2.4.0, feathers-errors@^2.5.0, feathers-errors@^2.7.0:
+feathers-errors@^2.0.1, feathers-errors@^2.0.2, feathers-errors@^2.2.0, feathers-errors@^2.4.0, feathers-errors@^2.5.0, feathers-errors@^2.7.0:
   version "2.7.0"
   resolved "https://registry.yarnpkg.com/feathers-errors/-/feathers-errors-2.7.0.tgz#24f219be6b64644930f6eedfb2cf07b4035b5003"
   dependencies:
     debug "^2.2.0"
+
+feathers-hooks-common@^2.0.3:
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/feathers-hooks-common/-/feathers-hooks-common-2.0.3.tgz#e9f12abebdbc163f28d4cb4c85094e29aa24635d"
+  dependencies:
+    debug "^2.2.0"
+    feathers-errors "^2.4.0"
+    traverse "0.6.6"
 
 feathers-hooks-common@^3.0.0:
   version "3.0.0"
@@ -1422,6 +1447,14 @@ feathers-hooks-common@^3.0.0:
     debug "^2.2.0"
     feathers-errors "^2.4.0"
     traverse "^0.6.6"
+
+feathers-hooks@^1.8.1:
+  version "1.8.1"
+  resolved "https://registry.yarnpkg.com/feathers-hooks/-/feathers-hooks-1.8.1.tgz#cba0c46f309cd6e368faeb4957a2dec9d7f2898f"
+  dependencies:
+    feathers-commons "^0.8.6"
+    feathers-hooks-common "^2.0.3"
+    uberproto "^1.2.0"
 
 feathers-hooks@^2.0.0:
   version "2.0.0"
@@ -1473,6 +1506,17 @@ feathers-rest@^1.7.2:
     feathers-commons "^0.8.0"
     feathers-errors "^2.0.1"
     qs "^6.0.1"
+
+feathers-rethinkdb@^0.4.2:
+  version "0.4.2"
+  resolved "https://registry.yarnpkg.com/feathers-rethinkdb/-/feathers-rethinkdb-0.4.2.tgz#119163c7dd9e3f79d7d062705063ced30c9d80bb"
+  dependencies:
+    debug "^2.2.0"
+    feathers-commons "^0.8.4"
+    feathers-errors "^2.0.2"
+    feathers-hooks "^1.8.1"
+    feathers-query-filters "^2.0.0"
+    uberproto "^1.2.0"
 
 feathers-socket-commons@^2.0.0, feathers-socket-commons@^2.3.1:
   version "2.4.0"
@@ -3015,6 +3059,12 @@ passport-jwt@^2.2.1:
     jsonwebtoken "^7.0.0"
     passport-strategy "^1.0.0"
 
+passport-local@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/passport-local/-/passport-local-1.0.0.tgz#1fe63268c92e75606626437e3b906662c15ba6ee"
+  dependencies:
+    passport-strategy "1.x.x"
+
 passport-strategy@1.x.x, passport-strategy@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/passport-strategy/-/passport-strategy-1.0.0.tgz#b5539aa8fc225a3d1ad179476ddf236b440f52e4"
@@ -3488,6 +3538,12 @@ restore-cursor@^1.0.1:
     exit-hook "^1.0.0"
     onetime "^1.0.0"
 
+rethinkdbdash@^2.3.28:
+  version "2.3.28"
+  resolved "https://registry.yarnpkg.com/rethinkdbdash/-/rethinkdbdash-2.3.28.tgz#f15fed3a2f0c178155fcadb6fc212b3df80f73df"
+  dependencies:
+    bluebird ">= 3.0.1"
+
 right-align@^0.1.1:
   version "0.1.3"
   resolved "https://registry.yarnpkg.com/right-align/-/right-align-0.1.3.tgz#61339b722fe6a3515689210d24e14c96148613ef"
@@ -3948,7 +4004,7 @@ tough-cookie@~2.3.0:
   dependencies:
     punycode "^1.4.1"
 
-traverse@^0.6.6:
+traverse@0.6.6, traverse@^0.6.6:
   version "0.6.6"
   resolved "https://registry.yarnpkg.com/traverse/-/traverse-0.6.6.tgz#cbdf560fd7b9af632502fed40f918c157ea97137"
 
