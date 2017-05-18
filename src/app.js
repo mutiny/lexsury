@@ -9,13 +9,11 @@ const configuration = require('feathers-configuration');
 const hooks = require('feathers-hooks');
 const rest = require('feathers-rest');
 const socketio = require('feathers-socketio');
-const authentication = require('feathers-authentication');
-const jwt = require('feathers-authentication-jwt');
+
 const lexIo = require('./services/lex-io');
 const middleware = require('./middleware');
 const services = require('./services');
 const appHooks = require('./app.hooks');
-
 const rethinkdb = require('./rethinkdb');
 
 const authentication = require('./authentication');

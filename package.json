@@ -23,7 +23,8 @@
   "scripts": {
     "dev": "DEBUG=* node_modules/.bin/nodemon",
     "start": "NODE_ENV=production node src/",
-    "test": "mocha test/ --recursive"
+    "test": "mocha test/ --recursive",
+    "db": "rethinkdb -d data"
   },
   "dependencies": {
     "bad-words": "^1.5.1",
