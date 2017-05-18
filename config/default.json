@@ -27,12 +27,11 @@
       "header": {
         "type": "access"
       },
-      "audience": "https://yourdomain.com",
-      "subject": "anonymous",
-      "issuer": "feathers",
+      "audience": "lexsur.herokuapp.com",
+      "subject": "lexsur",
+      "issuer": "lexsur",
       "algorithm": "HS256",
-      "expiresIn": "1d",
-      "successRedirect": "/",
+      "expiresIn": "7d",
       "failureRedirect": "/login"
     },
     "local": {
@@ -40,8 +39,13 @@
       "service": "users",
       "usernameField": "email",
       "passwordField": "password",
-      "successRedirect": "/",
       "failureRedirect": "/login"
+    },
+    "cookie": {
+      "enabled": true,
+      "name": "feathers-jwt",
+      "httpOnly": false,
+      "secure": false
     }
   }
 }

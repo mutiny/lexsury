@@ -55,6 +55,7 @@
     "request-promise": "^4.2.0",
     "rethinkdbdash": "^2.3.28",
     "serve-favicon": "^2.4.2",
+    "socketio-jwt": "^4.5.0",
     "style-loader": "^0.17.0",
     "svgo": "^0.7.2",
     "winston": "^2.3.1"
