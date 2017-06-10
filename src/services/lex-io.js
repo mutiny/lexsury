@@ -1,23 +1,13 @@
 'use strict';
 
-const socketioJwt = require('socketio-jwt');
-
 module.exports = function (io) {
   var app = this;
-  const secret = app.get('authentication').secret;
-
-  io.use(socketioJwt.authorize({
-    secret,
-    handshake: true,
-  }));
 
   function createNamespace(newnsp) {
     const nsp = io.of(newnsp);
     nsp.on('connection', function (socket) {
       const namespace = newnsp;
-      console.log('////////////////////////////////');
       console.log(`Client connected to ${namespace}`);
-      console.log('////////////////////////////////');
       let clientId = socket.id;
 
       // Create new user
@@ -97,10 +87,10 @@ module.exports = function (io) {
               votes.splice(voted, 1);
             }
 
-            app.service('questions')
-              .patch(question.id, { votes: votes })
-              .then(emitQuestions);
-          }(newQuestion));
+            app.service('questions').
+              patch(question.id, {votes: votes}).
+              then(emitQuestions);
+          })(newQuestion);
         });
       }
       socket.on('voteCast', function (vote) {

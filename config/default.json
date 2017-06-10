@@ -3,49 +3,8 @@
   "port": 3030,
   "public": "../public/",
   "paginate": {
-    "default": 100,
-    "max": 500
+    "default": 20,
+    "max": 50
   },
-  "rethinkdb": {
-    "db": "lexsur",
-    "servers": [
-      {
-        "host": "localhost",
-        "port": "28015"
-      }
-    ]
-  },
-  "authentication": {
-    "secret": "0f84b97a130f0878e0b7ffe84021782fa608816e8fb77076f9820c028eca4ea9b87784d90e3c33418b074a49afc499d25ac477953bb3d82399a472cbf9bc08353dfb6a1a8d1e0b3b08a40dda98f98f450407cdf7843ae7a0745d31122802ecf6cff62680681e8b6a3f162200aba822a7f252b40aa67578713eb9c695c1199d73ca49c65eca88c33e2b1c290ef31d22405b00c4c9141a9c51cdf844fa4dc4156ada46ce86779c13d282d618b884b420281b727bc5c6203734f9f8033dc889d48c406d37798931ddf8a789b8f430788e1fe1294d3e6c01a76f08e59e3be2de275b539c35c2e2f75ec7968640ebab74d6d666c4d31604bacd169a07a4c2867cb429",
-    "strategies": [
-      "jwt",
-      "local"
-    ],
-    "path": "/authentication",
-    "service": "users",
-    "jwt": {
-      "header": {
-        "type": "access"
-      },
-      "audience": "lexsur.herokuapp.com",
-      "subject": "lexsur",
-      "issuer": "lexsur",
-      "algorithm": "HS256",
-      "expiresIn": "7d",
-      "failureRedirect": "/login"
-    },
-    "local": {
-      "entity": "user",
-      "service": "users",
-      "usernameField": "email",
-      "passwordField": "password",
-      "failureRedirect": "/login"
-    },
-    "cookie": {
-      "enabled": true,
-      "name": "feathers-jwt",
-      "httpOnly": false,
-      "secure": false
-    }
-  }
+  "mongodb": "mongodb://localhost:27017/lexsur"
 }

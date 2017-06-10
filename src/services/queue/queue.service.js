@@ -1,23 +1,22 @@
-// Initializes the `users` service on path `/users`
+// Initializes the `queue` service on path `/queue`
 const createService = require('feathers-memory');
-const hooks = require('./users.hooks');
-const filters = require('./users.filters');
+const hooks = require('./queue.hooks');
+const filters = require('./queue.filters');
 
-module.exports = function initUserService() {
+module.exports = function () {
   const app = this;
   const paginate = app.get('paginate');
 
   const options = {
-    name: 'users',
+    name: 'queue',
     paginate,
-    id: 'socketid',
   };
 
   // Initialize our service with any options it requires
-  app.use('/users', createService(options));
+  app.use('/queue', createService(options));
 
   // Get our initialized service so that we can register hooks and filters
-  const service = app.service('users');
+  const service = app.service('queue');
 
   service.hooks(hooks);
 
