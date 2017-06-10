@@ -1,14 +1,14 @@
-const { authenticate } = require('feathers-authentication').hooks;
-
+const censor = require('../../hooks/censor');
+const validate = require('../../hooks/validate');
 module.exports = {
   before: {
-    all: [ authenticate('jwt') ],
+    all: [],
     find: [],
     get: [],
-    create: [],
-    update: [],
+    create: [censor(), validate()],
+    update: [censor(), validate()],
     patch: [],
-    remove: []
+    remove: [],
   },
 
   after: {
@@ -18,7 +18,7 @@ module.exports = {
     create: [],
     update: [],
     patch: [],
-    remove: []
+    remove: [],
   },
 
   error: {
@@ -28,6 +28,6 @@ module.exports = {
     create: [],
     update: [],
     patch: [],
-    remove: []
-  }
+    remove: [],
+  },
 };

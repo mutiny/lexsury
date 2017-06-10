@@ -1,17 +1,15 @@
 // Initializes the `questions` service on path `/questions`
-const createService = require('feathers-rethinkdb');
+const createService = require('feathers-memory');
 const hooks = require('./questions.hooks');
 const filters = require('./questions.filters');
 
 module.exports = function () {
   const app = this;
-  const Model = app.get('rethinkdbClient');
   const paginate = app.get('paginate');
 
   const options = {
     name: 'questions',
-    Model,
-    paginate
+    paginate,
   };
 
   // Initialize our service with any options it requires
@@ -19,7 +17,6 @@ module.exports = function () {
 
   // Get our initialized service so that we can register hooks and filters
   const service = app.service('questions');
-
   service.hooks(hooks);
 
   if (service.filter) {
