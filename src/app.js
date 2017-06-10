@@ -9,10 +9,14 @@ const configuration = require('feathers-configuration');
 const hooks = require('feathers-hooks');
 const rest = require('feathers-rest');
 const socketio = require('feathers-socketio');
+
 const lexIo = require('./services/lex-io');
 const middleware = require('./middleware');
 const services = require('./services');
 const appHooks = require('./app.hooks');
+const rethinkdb = require('./rethinkdb');
+
+const authentication = require('./authentication');
 
 const app = feathers();
 
@@ -25,10 +29,14 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 // Host the public folder
 app.use('/', feathers.static(app.get('public')));
+app.use('/room/*', feathers.static(app.get('public')));
 
 // Set up Plugins and providers
 app.configure(hooks());
+app.configure(rethinkdb);
 app.configure(rest());
+
+app.configure(authentication);
 
 // Set up our services (see `services/index.js`)
 app.configure(services);

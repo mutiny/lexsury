@@ -1,11 +1,13 @@
-const genRandRoomName = require('../../hooks/gen-rand-room-name');
+const { authenticate } = require('feathers-authentication').hooks;
+const genRandName = require('../../hooks/gen-rand-room-name');
 
 module.exports = {
   before: {
     all: [],
+    // all: [ authenticate('jwt') ], TODO
     find: [],
     get: [],
-    create: [genRandRoomName()],
+    create: [authenticate('jwt'), genRandName()],
     update: [],
     patch: [],
     remove: [],
