@@ -1,6 +1,7 @@
 'use strict';
 
 const socketioJwt = require('socketio-jwt');
+const jwt = require('jsonwebtoken');
 
 module.exports = function (io) {
   var app = this;
@@ -15,9 +16,15 @@ module.exports = function (io) {
     const nsp = io.of(newnsp);
     nsp.on('connection', function (socket) {
       const namespace = newnsp;
+      const token = socket.handshake.query.token;
+      const decodedToken = jwt.decode(token); // .payload.userId;
+      const uid = decodedToken.userId;
+
       console.log('////////////////////////////////');
       console.log(`Client connected to ${namespace}`);
+      console.log(`${uid}`);
       console.log('////////////////////////////////');
+
       let clientId = socket.id;
 
       // Create new user
