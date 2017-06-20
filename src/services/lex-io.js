@@ -12,10 +12,10 @@ module.exports = function (io) {
     handshake: true,
   }));
 
-  function createNamespace(newnsp) {
-    const nsp = io.of(newnsp);
+  function createNamespace(roomName) {
+    const nsp = io.of(roomName);
     nsp.on('connection', function (socket) {
-      const namespace = newnsp;
+      const namespace = roomName;
       const token = socket.handshake.query.token;
       const decodedToken = jwt.decode(token); // .payload.userId;
       const uid = decodedToken.userId;
