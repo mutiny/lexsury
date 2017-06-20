@@ -45,7 +45,6 @@ module.exports = function (io) {
           });
           socket.emit('newUser', usersList);
           socket.broadcast.emit('newUser', usersList);
-          console.log(`User manifest: ${Object.entries(usersList)}`);
         });
       }
 
