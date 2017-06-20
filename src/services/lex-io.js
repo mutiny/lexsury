@@ -18,11 +18,15 @@ module.exports = function (io) {
       const namespace = roomName;
       const token = socket.handshake.query.token;
       const decodedToken = jwt.decode(token); // .payload.userId;
-      const uid = decodedToken.userId;
+      let clientId = decodedToken.userId;
 
-      let clientId = uid;
+      // Add new users to list of participants
+      app.service('users').patch(clientId, { roomName }).then(() => {
+        console.log(`Updated user with room name`);
+      });
 
       // Create new user with default username of Anonymous
+      // Possibly unneeded ?
       function addNewUser() {
         const DEFAULT_USERNAME = 'Anonymous';
         socket.emit('assignment', clientId);
@@ -31,7 +35,7 @@ module.exports = function (io) {
         .catch(() => console.error('Error occurred while adding new user'));
       }
 
-      addNewUser();
+      // addNewUser();
 
       // Send pre-existing user schema to new clients
       function announceUsers() {
