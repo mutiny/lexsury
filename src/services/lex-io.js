@@ -20,18 +20,14 @@ module.exports = function (io) {
       const decodedToken = jwt.decode(token); // .payload.userId;
       const uid = decodedToken.userId;
 
-      console.log('////////////////////////////////');
-      console.log(`Client connected to ${namespace}`);
-      console.log(`${uid}`);
-      console.log('////////////////////////////////');
+      let clientId = uid;
 
-      let clientId = socket.id;
-
-      // Create new user
+      // Create new user with default username of Anonymous
       function addNewUser() {
+        const DEFAULT_USERNAME = 'Anonymous';
         socket.emit('assignment', clientId);
         app.service('users')
-        .create({ username: 'Anonymous', socketid: clientId, room: namespace })
+        .create({ username: DEFAULT_USERNAME, socketid: clientId, room: namespace })
         .catch(() => console.error('Error occurred while adding new user'));
       }
 
