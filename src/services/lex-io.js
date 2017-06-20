@@ -19,23 +19,6 @@ module.exports = function (io) {
       const decodedToken = jwt.decode(token); // .payload.userId;
       let clientId = decodedToken.userId;
 
-      // Add new users to list of participants
-      app.service('users').patch(clientId, { room: roomName }).then(() => {
-        console.log(`Updated user with room name`);
-      });
-
-      // Create new user with default username of Anonymous
-      // Possibly unneeded ?
-      function addNewUser() {
-        const DEFAULT_USERNAME = 'Anonymous';
-        socket.emit('assignment', clientId);
-        app.service('users')
-        .create({ username: DEFAULT_USERNAME, socketid: clientId, room: roomName })
-        .catch(() => console.error('Error occurred while adding new user'));
-      }
-
-      // addNewUser();
-
       // Send pre-existing user schema to new clients
       function announceUsers() {
         app.service('users').find({ query: { room: roomName, $limit: 100 } }).then(users => {
@@ -48,7 +31,10 @@ module.exports = function (io) {
         });
       }
 
-      announceUsers();
+      //
+      app.service('users').patch(clientId, { room: roomName }).then(() => {
+        announceUsers();
+      });
 
       // Send pre-existing questions to new clients
       function debrief() {
