@@ -15,13 +15,12 @@ module.exports = function (io) {
   function createNamespace(roomName) {
     const nsp = io.of(roomName);
     nsp.on('connection', function (socket) {
-      const namespace = roomName;
       const token = socket.handshake.query.token;
       const decodedToken = jwt.decode(token); // .payload.userId;
       let clientId = decodedToken.userId;
 
       // Add new users to list of participants
-      app.service('users').patch(clientId, { roomName }).then(() => {
+      app.service('users').patch(clientId, { room: roomName }).then(() => {
         console.log(`Updated user with room name`);
       });
 
@@ -31,7 +30,7 @@ module.exports = function (io) {
         const DEFAULT_USERNAME = 'Anonymous';
         socket.emit('assignment', clientId);
         app.service('users')
-        .create({ username: DEFAULT_USERNAME, socketid: clientId, room: namespace })
+        .create({ username: DEFAULT_USERNAME, socketid: clientId, room: roomName })
         .catch(() => console.error('Error occurred while adding new user'));
       }
 
@@ -39,13 +38,14 @@ module.exports = function (io) {
 
       // Send pre-existing user schema to new clients
       function announceUsers() {
-        app.service('users').find({ query: { room: namespace, $limit: 100 } }).then(users => {
-          let usersKey = {};
+        app.service('users').find({ query: { room: roomName, $limit: 100 } }).then(users => {
+          let usersList = {};
           users.data.forEach(user => {
-            usersKey[user.socketid] = user.username;
+            usersList[user.id] = user.username;
           });
-          socket.emit('newUser', usersKey);
-          socket.broadcast.emit('newUser', usersKey);
+          socket.emit('newUser', usersList);
+          socket.broadcast.emit('newUser', usersList);
+          console.log(`User manifest: ${Object.entries(usersList)}`);
         });
       }
 
@@ -54,7 +54,7 @@ module.exports = function (io) {
       // Send pre-existing questions to new clients
       function debrief() {
         app.service('questions')
-        .find({ query: { room: namespace,
+        .find({ query: { room: roomName,
           $limit: 15,
           $sort: { votes: -1 },
         } })
@@ -65,7 +65,7 @@ module.exports = function (io) {
 
       function updateNickname(newUsername) {
         app.service('users')
-        .update(clientId, { username: newUsername })
+        .patch(clientId, { username: newUsername })
         .then(announceUsers);
       }
 
@@ -77,7 +77,7 @@ module.exports = function (io) {
         console.log('Emit questions');
         app.service('questions')
         .find({ query: {
-          room: namespace,
+          room: roomName,
           $limit: 15,
           $sort: { votes: -1 },
         } })
@@ -88,7 +88,7 @@ module.exports = function (io) {
       socket.on('questionAsked', function (question) {
         console.log(`New question asked: ${clientId}`);
         app.service('questions')
-        .create(Object.assign(question, { author: clientId, votes: [], room: namespace }))
+        .create(Object.assign(question, { author: clientId, votes: [], room: roomName }))
           .then(() => emitQuestions());
       });
 
