@@ -5,12 +5,6 @@ Modern audience interaction
 
  [Demo](http://lexsur.herokuapp.com)
 
-## If you'd like to contribute, checkout our [Trello Board](https://trello.com/b/mffBye8Z) and come [hangout with us](https://discord.gg/vJjgKT7)
-
-## Tool Docs
-- [Feathers](https://docs.feathersjs.com)
-- [SocketIO](https://socket.io/docs/)
-
 ## Building
 
 - Lexsur is served using Node.js. On MacOS:
@@ -22,17 +16,24 @@ Modern audience interaction
 `$ npm install`
 `$ yarn`
 
+- Initiate RethinkDB database
+
+`$ npm db`
+
 - Dev server with reloading
 
-`$ npm run dev`
+`$ npm dev`
 
 - Production mode server
 
-`$ npm run start`
+`$ npm start`
 
-- Mocha tests
+## If you'd like to contribute, checkout our [Trello Board](https://trello.com/b/mffBye8Z) and come [hangout with us](https://discord.gg/vJjgKT7)
 
-`$ npm run test`
+## Tool Docs
+- [Feathers](https://docs.feathersjs.com)
+- [SocketIO](https://socket.io/docs/)
+
 
 ## Client
 - A bundled/minified version of our [React Client](https://github.com/mutiny/lexsur-react-client) is included within `public`
