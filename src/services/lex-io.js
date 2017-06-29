@@ -73,7 +73,7 @@ module.exports = function (io) {
       socket.on('questionAsked', function (question) {
         console.log(`New question asked: ${clientId}`);
         app.service('questions')
-        .create(Object.assign(question, { author: clientId, votes: [], room: roomName }))
+        .create(Object.assign(question, { author: clientId, votes: [], room: roomName, date: new Date() }))
           .then(() => emitQuestions());
       });
 
