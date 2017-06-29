@@ -7,11 +7,12 @@
   "keywords": [
     "feathers"
   ],
-  "author": {
-    "name": "Robin Ury",
-    "email": "r.ury@tuta.io"
-  },
-  "contributors": [],
+  "author": "Team Mutiny",
+  "contributors": [
+    "Robin Ury",
+    "Jason Gutierrez",
+    "Ian Doherty"
+  ],
   "bugs": {},
   "directories": {
     "lib": "src"
