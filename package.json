@@ -22,10 +22,11 @@
     "yarn": ">= 0.18.0"
   },
   "scripts": {
-    "dev": "DEBUG=* node_modules/.bin/nodemon",
+    "dev": "DEBUG=* run-p db devServer",
+    "db": "rethinkdb -d data",
+    "devServer": "DEBUG=* node_modules/.bin/nodemon",
     "start": "NODE_ENV=production node src/",
-    "test": "mocha test/ --recursive",
-    "db": "rethinkdb -d data"
+    "test": "mocha test/ --recursive"
   },
   "dependencies": {
     "bad-words": "^1.5.1",
@@ -52,6 +53,7 @@
     "helmet": "^3.5.0",
     "mocha": "^3.3.0",
     "mongoose": "^4.9.8",
+    "npm-run-all": "^4.0.2",
     "request": "^2.81.0",
     "request-promise": "^4.2.0",
     "rethinkdbdash": "^2.3.28",
