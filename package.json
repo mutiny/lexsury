@@ -24,7 +24,7 @@
   "scripts": {
     "dev": "DEBUG=* run-p db devServer",
     "db": "rethinkdb -d data",
-    "devServer": "DEBUG=* node_modules/.bin/nodemon",
+    "devServer": "DEBUG=* nodemon",
     "start": "NODE_ENV=production node src/",
     "test": "mocha test/ --recursive"
   },
