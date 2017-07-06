@@ -12,7 +12,7 @@
       "jwt"
     ],
     "path": "/authentication",
-    "service": "users",
+    "service": "user",
     "usernameField": "email",
     "passwordField:": "password",
     "jwt": {

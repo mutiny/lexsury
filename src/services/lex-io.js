@@ -21,7 +21,7 @@ module.exports = function (io) {
 
       // Send pre-existing user schema to new clients
       function announceUsers() {
-        app.service('users').find({ query: { room: roomName, $limit: 100 } }).then(users => {
+        app.service('user').find({ query: { room: roomName, $limit: 100 } }).then(users => {
           let usersList = {};
           users.data.forEach(user => {
             usersList[user.id] = user.username;
@@ -32,13 +32,13 @@ module.exports = function (io) {
       }
 
       //
-      app.service('users').patch(clientId, { room: roomName }).then(() => {
+      app.service('user').patch(clientId, { room: roomName }).then(() => {
         announceUsers();
       });
 
       // Send pre-existing questions to new clients
       function debrief() {
-        app.service('questions')
+        app.service('question')
         .find({ query: { room: roomName,
           $limit: 15,
           $sort: { votes: -1 },
@@ -49,7 +49,7 @@ module.exports = function (io) {
       debrief();
 
       function updateNickname(newUsername) {
-        app.service('users')
+        app.service('user')
         .patch(clientId, { username: newUsername })
         .then(announceUsers);
       }
@@ -60,7 +60,7 @@ module.exports = function (io) {
 
       function emitQuestions() {
         console.log('Emit questions');
-        app.service('questions')
+        app.service('question')
         .find({ query: {
           room: roomName,
           $limit: 15,
@@ -72,13 +72,13 @@ module.exports = function (io) {
       // Attempt to create entry for new questions, then broadcast questions to clients
       socket.on('questionAsked', function (question) {
         console.log(`New question asked: ${clientId}`);
-        app.service('questions')
+        app.service('question')
         .create(Object.assign(question, { author: clientId, votes: [], room: roomName, date: new Date() }))
           .then(() => emitQuestions());
       });
 
       function castVote(vote) {
-        app.service('questions').get(vote.id).then(newQuestion => {
+        app.service('question').get(vote.id).then(newQuestion => {
           (function handleVote(question) {
             let votes = question.votes;
             let voted = (votes.indexOf(clientId));
@@ -89,7 +89,7 @@ module.exports = function (io) {
               votes.splice(voted, 1);
             }
 
-            app.service('questions')
+            app.service('question')
               .patch(question.id, { votes: votes })
               .then(emitQuestions);
           }(newQuestion));
@@ -101,7 +101,7 @@ module.exports = function (io) {
     });
   }
 
-  app.service('rooms').on('created', room => {
+  app.service('room').on('created', room => {
     console.log(`Room created: ${room.name}`);
     createNamespace(`/${room.name}`);
   });
