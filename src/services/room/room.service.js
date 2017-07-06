@@ -1,8 +1,8 @@
-// Initializes the `users` service on path `/users`
+// Initializes the `room` service on path `/rooms`
 const createService = require('feathers-sequelize');
-const createModel = require('../../models/users.model');
-const hooks = require('./users.hooks');
-const filters = require('./users.filters');
+const createModel = require('../../models/room.model');
+const hooks = require('./room.hooks');
+const filters = require('./room.filters');
 
 module.exports = function () {
   const app = this;
@@ -10,16 +10,16 @@ module.exports = function () {
   const paginate = app.get('paginate');
 
   const options = {
-    name: 'users',
+    name: 'room',
     Model,
     paginate
   };
 
   // Initialize our service with any options it requires
-  app.use('/users', createService(options));
+  app.use('/room', createService(options));
 
   // Get our initialized service so that we can register hooks and filters
-  const service = app.service('users');
+  const service = app.service('room');
 
   service.hooks(hooks);
 
