@@ -1,11 +1,12 @@
 // Initializes the `rooms` service on path `/rooms`
-const createService = require('feathers-rethinkdb');
+const createService = require('feathers-sequelize');
+const createModel = require('../../models/rooms.model');
 const hooks = require('./rooms.hooks');
 const filters = require('./rooms.filters');
 
 module.exports = function () {
   const app = this;
-  const Model = app.get('rethinkdbClient');
+  const Model = createModel(app);
   const paginate = app.get('paginate');
 
   const options = {

@@ -14,9 +14,10 @@ const lexIo = require('./services/lex-io');
 const middleware = require('./middleware');
 const services = require('./services');
 const appHooks = require('./app.hooks');
-const rethinkdb = require('./rethinkdb');
 
 const authentication = require('./authentication');
+
+const sequelize = require('./sequelize');
 
 const app = feathers();
 
@@ -33,7 +34,7 @@ app.use('/room/*', feathers.static(app.get('public')));
 
 // Set up Plugins and providers
 app.configure(hooks());
-app.configure(rethinkdb);
+app.configure(sequelize);
 app.configure(rest());
 
 app.configure(authentication);
