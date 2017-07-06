@@ -1,11 +1,12 @@
 const { authenticate } = require('feathers-authentication').hooks;
+const genRandomName = require('../../hooks/gen-rand-room-name.js');
 
 module.exports = {
   before: {
     all: [ authenticate('jwt') ],
     find: [],
     get: [],
-    create: [],
+    create: [ genRandomName() ],
     update: [],
     patch: [],
     remove: []
