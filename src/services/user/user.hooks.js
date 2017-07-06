@@ -1,7 +1,8 @@
+/* eslint-disable array-bracket-spacing */
 const { authenticate } = require('feathers-authentication').hooks;
 const commonHooks = require('feathers-hooks-common');
 const { restrictToOwner } = require('feathers-authentication-hooks');
-
+const local = require('feathers-authentication-local');
 
 const restrict = [
   authenticate('jwt'),
@@ -16,7 +17,7 @@ module.exports = {
     all: [],
     find: [ authenticate('jwt') ],
     get: [ ...restrict ],
-    create: [  ],
+    create: [ local.hooks.hashPassword() ],
     update: [ ...restrict ],
     patch: [ ...restrict ],
     remove: [ ...restrict ]
