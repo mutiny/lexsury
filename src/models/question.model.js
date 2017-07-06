@@ -17,6 +17,10 @@ module.exports = function (app) {
       notNull: true,
     },
   }, {
+    name: {
+      singular: 'question',
+      plural: 'questions',
+    },
     hooks: {
       beforeCount(options) {
         options.raw = true;
@@ -27,6 +31,7 @@ module.exports = function (app) {
   question.associate = function (models) { // eslint-disable-line no-unused-vars
     models.question.belongsTo(models.user, { as: 'author' });
     models.question.belongsTo(models.room, { as: 'room' });
+    models.question.hasMany(models.vote);
   };
 
   return question;

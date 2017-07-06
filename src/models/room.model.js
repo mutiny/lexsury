@@ -15,6 +15,10 @@ module.exports = function (app) {
       notNull: true,
     },
   }, {
+    name: {
+      singular: 'room',
+      plural: 'rooms',
+    },
     hooks: {
       beforeCount(options) {
         options.raw = true;

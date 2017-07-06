@@ -39,6 +39,10 @@ module.exports = function (app) {
       allowNull: true,
     },
   }, {
+    name: {
+      singular: 'user',
+      plural: 'users',
+    },
     hooks: {
       beforeCount(options) {
         options.raw = true;
