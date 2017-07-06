@@ -30,6 +30,10 @@ module.exports = function (app) {
     // Define associations here
     // See http://docs.sequelizejs.com/en/latest/docs/associations/
     models.room.belongsTo(models.user, { as: 'creator' });
+    models.room.belongsToMany(models.user, {
+      as: 'rooms',
+      through: 'guestlist',
+    });
   };
 
   return room;

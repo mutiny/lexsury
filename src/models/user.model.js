@@ -18,6 +18,11 @@ module.exports = function (app) {
         isEmail: true,
       },
     },
+    displayName: {
+      type: Sequelize.STRING(128),
+      defaultValue: 'Anonymous',
+      notEmpty: true,
+    },
     password: {
       type: Sequelize.STRING(128),
       notNull: true,
@@ -51,8 +56,11 @@ module.exports = function (app) {
   });
 
   user.associate = function (models) { // eslint-disable-line no-unused-vars
-    // Define associations here
-    // See http://docs.sequelizejs.com/en/latest/docs/associations/
+    models.user.hasMany(models.question);
+    models.user.belongsToMany(models.room, {
+      as: 'guests',
+      through: 'guestlist',
+    });
   };
 
   return user;
