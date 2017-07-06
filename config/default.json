@@ -6,46 +6,27 @@
     "default": 100,
     "max": 500
   },
-  "rethinkdb": {
-    "db": "lexsur",
-    "servers": [
-      {
-        "host": "localhost",
-        "port": "28015"
-      }
-    ]
-  },
   "authentication": {
-    "secret": "0f84b97a130f0878e0b7ffe84021782fa608816e8fb77076f9820c028eca4ea9b87784d90e3c33418b074a49afc499d25ac477953bb3d82399a472cbf9bc08353dfb6a1a8d1e0b3b08a40dda98f98f450407cdf7843ae7a0745d31122802ecf6cff62680681e8b6a3f162200aba822a7f252b40aa67578713eb9c695c1199d73ca49c65eca88c33e2b1c290ef31d22405b00c4c9141a9c51cdf844fa4dc4156ada46ce86779c13d282d618b884b420281b727bc5c6203734f9f8033dc889d48c406d37798931ddf8a789b8f430788e1fe1294d3e6c01a76f08e59e3be2de275b539c35c2e2f75ec7968640ebab74d6d666c4d31604bacd169a07a4c2867cb429",
+    "secret": "6badcfa348bae1c8a1484efab77ebfda016b62b4c47609b89103587d56da37335703f380dfef70c58c73237c768afeeffc4797e67c0218638f30971599270521f4babda633dfb5b75813577253296f3801829be4759e08f3680658de7a1a6fa0b311e052fac460a0fa7d43f5e61d2dda1a44632e73aed0a890418841247dfd9f61aacfa63a8efd20458af90fea600d81203df2e7d5b39899d07078e39b65c72d804b10d5a6dbc579dd172ca21b6a0c40d9c330cd5cedc1aa003baf23bdc5a64e406f2ae4f463390c9b3692b0e43a5f2b73b8c40c8025668075790b3c1763fa5cd96010fcf4deb78acd69676d31c7a531000ff0354e650215e9df174f25e2b730",
     "strategies": [
-      "jwt",
-      "local"
+      "jwt"
     ],
     "path": "/authentication",
     "service": "users",
+    "usernameField": "email",
+    "passwordField:": "password",
     "jwt": {
       "header": {
         "type": "access"
       },
-      "audience": "lexsur.herokuapp.com",
-      "subject": "lexsur",
-      "issuer": "lexsur",
+      "audience": "https://yourdomain.com",
+      "subject": "anonymous",
+      "issuer": "feathers",
       "algorithm": "HS256",
-      "expiresIn": "7d",
-      "failureRedirect": "/login"
-    },
-    "local": {
-      "entity": "user",
-      "service": "users",
-      "usernameField": "email",
-      "passwordField": "password",
-      "failureRedirect": "/login"
-    },
-    "cookie": {
-      "enabled": true,
-      "name": "feathers-jwt",
-      "httpOnly": false,
-      "secure": false
+      "expiresIn": "1d"
     }
-  }
+  },
+  "mysql": "mysql://lexsur:lexsur@localhost/lexsur",
+  "db_dialect": "mysql",
+  "db_url": "mysql://lexsur:lexsur@localhost/lexsur"
 }

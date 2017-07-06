@@ -4,13 +4,8 @@ const Sequelize = require('sequelize');
 
 module.exports = function (app) {
   const sequelizeClient = app.get('sequelizeClient');
-  const rooms = sequelizeClient.define('rooms', {
-    id: {
-      type: Sequelize.INTEGER,
-      primaryKey: true,
-      autoIncrement: true,
-    },
-    name: {
+  const questions = sequelizeClient.define('questions', {
+    text: {
       type: Sequelize.STRING,
       allowNull: false,
     },
@@ -22,11 +17,10 @@ module.exports = function (app) {
     },
   });
 
-  rooms.associate = function (models) { // eslint-disable-line no-unused-vars
+  questions.associate = function (models) { // eslint-disable-line no-unused-vars
     // Define associations here
     // See http://docs.sequelizejs.com/en/latest/docs/associations/
-    models.rooms.belongsTo(models.users, { as: 'creator' });
   };
 
-  return rooms;
+  return questions;
 };

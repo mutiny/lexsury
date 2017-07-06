@@ -1,11 +1,12 @@
 // Initializes the `questions` service on path `/questions`
-const createService = require('feathers-rethinkdb');
+const createService = require('feathers-sequelize');
+const createModel = require('../../models/questions.model');
 const hooks = require('./questions.hooks');
 const filters = require('./questions.filters');
 
 module.exports = function () {
   const app = this;
-  const Model = app.get('rethinkdbClient');
+  const Model = createModel(app);
   const paginate = app.get('paginate');
 
   const options = {
