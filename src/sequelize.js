@@ -7,8 +7,8 @@ module.exports = function () {
     dialect: 'mysql',
     logging: false,
     define: {
-      freezeTableName: true
-    }
+      freezeTableName: true,
+    },
   });
   const oldSetup = app.setup;
 

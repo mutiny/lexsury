@@ -58,7 +58,6 @@ module.exports = function (app) {
   user.associate = function (models) { // eslint-disable-line no-unused-vars
     models.user.hasMany(models.question);
     models.user.belongsToMany(models.room, {
-      as: 'guests',
       through: 'guestlist',
     });
   };
