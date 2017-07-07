@@ -16,7 +16,7 @@ module.exports = function(io) {
 
   function getQuestions(roomId) {
     return sequelize.models.question.findAll({
-      include: [ { association: 'author' } ],
+      include: [ { association: 'author' }, sequelize.models.vote ],
       where: { roomId },
       attributes: [
         'id',
@@ -24,7 +24,7 @@ module.exports = function(io) {
         'authorId',
         'createdAt',
       ],
-    }).then(qs => qs.map(q => ({ text: q.text, id: q.id, author: q.author.displayName })));
+    }).then(qs => qs.map(q => ({ text: q.text, id: q.id, author: q.author.displayName, votes: q.votes })));
   }
 
   function changeName(newName, userId) {
@@ -60,6 +60,7 @@ module.exports = function(io) {
 
   io.on('connection', function(socket) {
 
+    // DEBUG getQuestions(10).then(qs => console.log(JSON.stringify(qs)));
     // Send initial guestlist
     (function sendOldQuestions() {
       getQuestions(roomId)
