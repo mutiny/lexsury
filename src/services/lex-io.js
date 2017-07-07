@@ -35,7 +35,7 @@ module.exports = function(io) {
 
   //  May wish to change question param to something besides string
   function askQuestion(question, roomId, userId, anonymous = false) {
-    sequelize.models.question.create({
+    return sequelize.models.question.create({
       text: question,
       authorId: userId,
       roomId,
@@ -60,22 +60,26 @@ module.exports = function(io) {
 
   io.on('connection', function(socket) {
 
-    // DEBUG getQuestions(10).then(qs => console.log(JSON.stringify(qs)));
-    // Send initial guestlist
-    (function sendOldQuestions() {
+    function emitQuestions() {
       getQuestions(roomId)
-        .then(qs => socket.emit('updateQuestions', qs));
-    }());
+        .then(qs => io.sockets.emit('updateQuestions', qs));
+    }
 
-    // Update display name
+    // Send once on initial connection
+    emitQuestions();
+
+    // TODO: Real time update
     socket.on('nameChanged', newName => changeName(newName, userId));
 
-    // Ask a new question
-    socket.on('questionAsked', (q, anon) => askQuestion(q, roomId, userId, anon))
-    // TODO: Broadcast the new question
+    socket.on('questionAsked', (q, anon) => {
+      askQuestion(q, roomId, userId, anon)
+        .then(() => emitQuestions());
+    });
 
     // Cast a vote on a question
-    socket.on('voteCast', questionId => voteFor(questionId, userId))
-    // TODO: Broadcast the vote
+    socket.on('voteCast', questionId => {
+      voteFor(questionId, userId)
+        .then(() => emitQuestions());
+    });
   });
 };
