@@ -69,12 +69,12 @@ module.exports = function(io) {
     const nsp = io.of('/' + roomName);
     nsp.on('connection', function socketHandler(socket) {
       const token = socket.handshake.query.token;
-      const decodedToken = jwt.decode(token); // .payload.userId;
+      const decodedToken = jwt.decode(token);
       const userId = decodedToken.userId;
 
       function emitQuestions() {
         getQuestions(roomId)
-          .then(qs => io.sockets.emit('updateQuestions', qs));
+          .then(qs => nsp.emit('questionAsked', qs));
       }
 
       // Send once on initial connection
@@ -85,13 +85,13 @@ module.exports = function(io) {
 
       socket.on('questionAsked', (q, anon) => {
         askQuestion(q, roomId, userId, anon)
-          .then(() => emitQuestions());
+          .then(emitQuestions);
       });
 
       // Cast a vote on a question
       socket.on('voteCast', questionId => {
         voteFor(questionId, userId)
-          .then(() => emitQuestions());
+          .then(emitQuestions);
       });
     });
   }
