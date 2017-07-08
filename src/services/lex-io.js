@@ -2,11 +2,13 @@
 
 'use strict';
 
+const socketioJwt = require('socketio-jwt');
+const jwt = require('jsonwebtoken');
+
 module.exports = function(io) {
   const app = this;
+  const secret = app.get('authentication').secret;
   const sequelize = app.get('sequelizeClient');
-  var userId = 1; // DEBUG
-  var roomId = 10; // DEBUG
 
   function getUsers(roomId) {
     return sequelize.models.room.findOne({
@@ -58,28 +60,41 @@ module.exports = function(io) {
     });
   }
 
-  io.on('connection', function(socket) {
+  io.use(socketioJwt.authorize({
+    secret,
+    handshake: true,
+  }));
 
-    function emitQuestions() {
-      getQuestions(roomId)
-        .then(qs => io.sockets.emit('updateQuestions', qs));
-    }
+  function createNamespace(roomName, roomId) {
+    const nsp = io.of('/' + roomName);
+    nsp.on('connection', function socketHandler(socket) {
+      const token = socket.handshake.query.token;
+      const decodedToken = jwt.decode(token); // .payload.userId;
+      const userId = decodedToken.userId;
 
-    // Send once on initial connection
-    emitQuestions();
+      function emitQuestions() {
+        getQuestions(roomId)
+          .then(qs => io.sockets.emit('updateQuestions', qs));
+      }
 
-    // TODO: Real time update
-    socket.on('nameChanged', newName => changeName(newName, userId));
+      // Send once on initial connection
+      emitQuestions();
 
-    socket.on('questionAsked', (q, anon) => {
-      askQuestion(q, roomId, userId, anon)
-        .then(() => emitQuestions());
+      // TODO: Real time update
+      socket.on('nameChanged', newName => changeName(newName, userId));
+
+      socket.on('questionAsked', (q, anon) => {
+        askQuestion(q, roomId, userId, anon)
+          .then(() => emitQuestions());
+      });
+
+      // Cast a vote on a question
+      socket.on('voteCast', questionId => {
+        voteFor(questionId, userId)
+          .then(() => emitQuestions());
+      });
     });
+  }
 
-    // Cast a vote on a question
-    socket.on('voteCast', questionId => {
-      voteFor(questionId, userId)
-        .then(() => emitQuestions());
-    });
-  });
+  app.service('room').on('created', room => createNamespace(room.name, room.id));
 };
