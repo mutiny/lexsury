@@ -8,8 +8,8 @@ const restrict = [
   authenticate('jwt'),
   restrictToOwner({
     idField: 'id',
-    ownerField: 'id'
-  })
+    ownerField: 'id',
+  }),
 ];
 
 module.exports = {
@@ -20,7 +20,7 @@ module.exports = {
     create: [ local.hooks.hashPassword() ],
     update: [ ...restrict ],
     patch: [ ...restrict ],
-    remove: [ ...restrict ]
+    remove: [ ...restrict ],
   },
 
   after: {
@@ -28,14 +28,14 @@ module.exports = {
       commonHooks.when(
         hook => hook.params.provider,
         commonHooks.discard('password')
-      )
+      ),
     ],
     find: [],
     get: [],
     create: [],
     update: [],
     patch: [],
-    remove: []
+    remove: [],
   },
 
   error: {
@@ -45,6 +45,6 @@ module.exports = {
     create: [],
     update: [],
     patch: [],
-    remove: []
-  }
+    remove: [],
+  },
 };

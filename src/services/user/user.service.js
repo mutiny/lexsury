@@ -12,7 +12,7 @@ module.exports = function () {
   const options = {
     name: 'user',
     Model,
-    paginate
+    paginate,
   };
 
   // Initialize our service with any options it requires
