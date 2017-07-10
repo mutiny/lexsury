@@ -26,7 +26,7 @@ module.exports = function(io) {
         'authorId',
         'createdAt',
       ],
-    }).then(qs => qs.map(q => ({ text: q.text, id: q.id, author: q.author.displayName, votes: q.votes })));
+    }).then(qs => qs.map(q => ({ text: q.text, id: q.id, author: q.author.displayName, votes: q.votes, date: q.createdAt })));
   }
 
   function changeName(newName, userId) {
@@ -46,7 +46,7 @@ module.exports = function(io) {
   }
 
   function voteFor(questionId, userId) {
-    sequelize.models.vote.create({
+    return sequelize.models.vote.create({
       questionId,
       userId,
     });
