@@ -8,17 +8,20 @@ const jwt = require('jsonwebtoken');
 module.exports = function(io) {
   const app = this;
   const secret = app.get('authentication').secret;
-  const sequelize = app.get('sequelizeClient');
+  const sequelize = app.get('sequelizeClient').models;
 
   function getUsers(roomId) {
-    return sequelize.models.room.findOne({
+    return sequelize.room.findOne({
       where: { id: roomId },
     }).then(room => room.getUsers({ attributes: ['id', 'displayName'] }));
   }
 
   function getQuestions(roomId) {
-    return sequelize.models.question.findAll({
-      include: [ { association: 'author' }, sequelize.models.vote ],
+    return sequelize.question.findAll({
+      include: [
+        { association: 'author' },
+        { model: sequelize.vote, where: { revoked: false }, required: false },
+      ],
       where: { roomId },
       attributes: [
         'id',
@@ -30,14 +33,14 @@ module.exports = function(io) {
   }
 
   function changeName(newName, userId) {
-    sequelize.models.user.findOne({
+    sequelize.user.findOne({
       where: { id: userId },
     }).then(u => u.update({ displayName: newName }));
   }
 
   //  May wish to change question param to something besides string
   function askQuestion(question, roomId, userId, anonymous = false) {
-    return sequelize.models.question.create({
+    return sequelize.question.create({
       text: question,
       authorId: userId,
       roomId,
@@ -46,14 +49,18 @@ module.exports = function(io) {
   }
 
   function voteFor(questionId, userId) {
-    return sequelize.models.vote.create({
-      questionId,
-      userId,
+    return sequelize.vote.findOrCreate({
+      where: { questionId, userId },
+    }).spread((vote, didCreate) => {
+      if (!didCreate) {
+        if (vote.revoked) vote.update({ revoked: false });
+        else vote.update({ revoked: true });
+      }
     });
   }
 
   function findVotesFor(questionId) {
-    return sequelize.models.vote.count({
+    return sequelize.vote.count({
       where: {
         questionId,
       },
