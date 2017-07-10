@@ -12,10 +12,9 @@ describe('Feathers application tests', () => {
     this.server.close(done);
   });
 
-  it('starts and shows the index page', () => {
-    return rp('http://localhost:3030').then(body =>
-      assert.ok(body.indexOf('<html>') !== -1)
-    );
+  it('serves index page', () => {
+    return rp('http://localhost:3030')
+      .then(body => assert.ok(body));
   });
 
   describe('404', function () {
