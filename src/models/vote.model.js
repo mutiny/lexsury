@@ -2,9 +2,9 @@ const Sequelize = require('sequelize');
 module.exports = function (app) {
   const sequelizeClient = app.get('sequelizeClient');
   const vote = sequelizeClient.define('vote', {
-    revoked: {
+    active: {
       type: Sequelize.BOOLEAN,
-      defaultValue: false,
+      defaultValue: true,
     },
   }, {
     name: {
