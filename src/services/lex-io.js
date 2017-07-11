@@ -52,10 +52,7 @@ module.exports = function(io) {
     return sequelize.vote.findOrCreate({
       where: { questionId, userId },
     }).spread((vote, didCreate) => {
-      if (!didCreate) {
-        if (vote.revoked) vote.update({ revoked: false });
-        else vote.update({ revoked: true });
-      }
+      if (!didCreate) return vote.update({ revoked: !vote.revoked });
     });
   }
 
