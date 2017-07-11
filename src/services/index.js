@@ -1,10 +1,11 @@
-const questions = require('./questions/questions.service.js');
-// const queue = require('./queue/queue.service.js');
-const users = require('./users/users.service.js');
-const rooms = require('./rooms/rooms.service');
+const question = require('./question/question.service.js');
+const user = require('./user/user.service.js');
+const room = require('./room/room.service.js');
+const vote = require('./vote/vote.service.js');
 module.exports = function () {
   const app = this; // eslint-disable-line no-unused-vars
-  app.configure(questions);
-  app.configure(rooms);
-  app.configure(users);
+  app.configure(question);
+  app.configure(room);
+  app.configure(user);
+  app.configure(vote);
 };

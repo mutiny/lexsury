@@ -6,5 +6,27 @@
     "default": 20,
     "max": 50
   },
-  "mongodb": "mongodb://localhost:27017/lexsur"
+  "authentication": {
+    "secret": "6badcfa348bae1c8a1484efab77ebfda016b62b4c47609b89103587d56da37335703f380dfef70c58c73237c768afeeffc4797e67c0218638f30971599270521f4babda633dfb5b75813577253296f3801829be4759e08f3680658de7a1a6fa0b311e052fac460a0fa7d43f5e61d2dda1a44632e73aed0a890418841247dfd9f61aacfa63a8efd20458af90fea600d81203df2e7d5b39899d07078e39b65c72d804b10d5a6dbc579dd172ca21b6a0c40d9c330cd5cedc1aa003baf23bdc5a64e406f2ae4f463390c9b3692b0e43a5f2b73b8c40c8025668075790b3c1763fa5cd96010fcf4deb78acd69676d31c7a531000ff0354e650215e9df174f25e2b730",
+    "strategies": [
+      "jwt"
+    ],
+    "path": "/authentication",
+    "service": "user",
+    "usernameField": "email",
+    "passwordField:": "password",
+    "jwt": {
+      "header": {
+        "type": "access"
+      },
+      "audience": "https://yourdomain.com",
+      "subject": "anonymous",
+      "issuer": "feathers",
+      "algorithm": "HS256",
+      "expiresIn": "1d"
+    }
+  },
+  "mysql": "mysql://lexsur:lexsur@localhost/lexsur",
+  "db_dialect": "mysql",
+  "db_url": "mysql://lexsur:lexsur@localhost/lexsur"
 }
