@@ -20,7 +20,7 @@ module.exports = function(io) {
     return sequelize.question.findAll({
       include: [
         { association: 'author' },
-        { model: sequelize.vote, where: { revoked: false }, required: false },
+        { model: sequelize.vote, where: { active: true }, required: false },
       ],
       where: { roomId },
       attributes: [
@@ -52,7 +52,7 @@ module.exports = function(io) {
     return sequelize.vote.findOrCreate({
       where: { questionId, userId },
     }).spread((vote, didCreate) => {
-      if (!didCreate) return vote.update({ revoked: !vote.revoked });
+      if (!didCreate) return vote.update({ active: !vote.active });
     });
   }
 
