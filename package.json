@@ -46,7 +46,6 @@
     "feathers-hooks-common": "^3.0.0",
     "feathers-memory": "^1.1.0",
     "feathers-mongoose": "^5.1.0",
-    "feathers-nedb": "^2.6.2",
     "feathers-rest": "^1.7.2",
     "feathers-rethinkdb": "^0.4.2",
     "feathers-sequelize": "^2.0.1",
@@ -62,7 +61,6 @@
     "rethinkdbdash": "^2.3.28",
     "sequelize": "^4.2.1",
     "serve-favicon": "^2.4.2",
-    "socketio-jwt": "^4.5.0",
     "style-loader": "^0.17.0",
     "svgo": "^0.7.2",
     "winston": "^2.3.1"
