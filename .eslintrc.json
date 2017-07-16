@@ -4,7 +4,7 @@
     "node": true,
     "mocha": true
   },
-  "extends": "airbnb-base/legacy",
+  "extends": ["airbnb-base/legacy", "eslint:recommended"],
   "rules": {
     "indent": [
       "error",
@@ -25,13 +25,11 @@
     "comma-dangle": [
       "error",
       "always-multiline"
-    ]
-  },
-  "ecmaFeatures": {
-    "modules": true,
-    "spread": true
+    ],
+    "no-console" : "off"
   },
   "parserOptions": {
-        "sourceType": "module"
-    }
+    "ecmaVersion": 6,
+    "sourceType": "module"
+  }
 }

@@ -1,106 +1,104 @@
+/* eslint-disable func-names, no-unused-vars */
+
 'use strict';
 
-module.exports = function (io) {
-  var app = this;
+const socketioJwt = require('socketio-jwt');
+const jwt = require('jsonwebtoken');
 
-  function createNamespace(newnsp) {
-    const nsp = io.of(newnsp);
-    nsp.on('connection', function (socket) {
-      const namespace = newnsp;
-      console.log(`Client connected to ${namespace}`);
-      let clientId = socket.id;
+module.exports = function(io) {
+  const app = this;
+  const secret = app.get('authentication').secret;
+  const sequelize = app.get('sequelizeClient').models;
 
-      // Create new user
-      function addNewUser() {
-        socket.emit('assignment', clientId);
-        app.service('users')
-        .create({ username: 'Anonymous', socketid: clientId, room: namespace })
-        .catch(() => console.error('Error occurred while adding new user'));
-      }
+  function getUsers(roomId) {
+    return sequelize.room.findOne({
+      where: { id: roomId },
+    }).then(room => room.getUsers({ attributes: ['id', 'displayName'] }));
+  }
 
-      addNewUser();
+  function getQuestions(roomId) {
+    return sequelize.question.findAll({
+      include: [
+        { association: 'author' },
+        { model: sequelize.vote, where: { active: true }, required: false },
+      ],
+      where: { roomId },
+      attributes: [
+        'id',
+        'text',
+        'authorId',
+        'createdAt',
+      ],
+    }).then(qs => qs.map(q => ({ text: q.text, id: q.id, author: q.author.displayName, votes: q.votes, date: q.createdAt })));
+  }
 
-      // Send pre-existing user schema to new clients
-      function announceUsers() {
-        app.service('users').find({ query: { room: namespace, $limit: 100 } }).then(users => {
-          let usersKey = {};
-          users.data.forEach(user => {
-            usersKey[user.socketid] = user.username;
-          });
-          socket.emit('newUser', usersKey);
-          socket.broadcast.emit('newUser', usersKey);
-        });
-      }
+  function changeName(newName, userId) {
+    sequelize.user.findOne({
+      where: { id: userId },
+    }).then(u => u.update({ displayName: newName }));
+  }
 
-      announceUsers();
+  //  May wish to change question param to something besides string
+  function askQuestion(question, roomId, userId, anonymous = false) {
+    return sequelize.question.create({
+      text: question,
+      authorId: userId,
+      roomId,
+      anonymous,
+    });
+  }
 
-      // Send pre-existing questions to new clients
-      function debrief() {
-        app.service('questions')
-        .find({ query: { room: namespace,
-          $limit: 15,
-          $sort: { votes: -1 },
-        } })
-        .then(questions => socket.emit('newQuestion', questions.data));
-      }
+  function voteFor(questionId, userId) {
+    return sequelize.vote.findOrCreate({
+      where: { questionId, userId },
+    }).spread((vote, didCreate) => {
+      if (!didCreate) return vote.update({ active: !vote.active });
+    });
+  }
 
-      debrief();
+  function findVotesFor(questionId) {
+    return sequelize.vote.count({
+      where: {
+        questionId,
+      },
+    });
+  }
 
-      function updateNickname(newUsername) {
-        app.service('users')
-        .update(clientId, { username: newUsername })
-        .then(announceUsers);
-      }
+  io.use(socketioJwt.authorize({
+    secret,
+    handshake: true,
+  }));
 
-      socket.on('nameChanged', function (newUsername) {
-        updateNickname(newUsername);
-      });
+  function createNamespace(roomName, roomId) {
+    const nsp = io.of('/' + roomName);
+    nsp.on('connection', function socketHandler(socket) {
+      const token = socket.handshake.query.token;
+      const decodedToken = jwt.decode(token);
+      const userId = decodedToken.userId;
 
       function emitQuestions() {
-        console.log('Emit questions');
-        app.service('questions')
-        .find({ query: {
-          room: namespace,
-          $limit: 15,
-          $sort: { votes: -1 },
-        } })
-        .then(questions => nsp.emit('newQuestion', questions.data));
+        getQuestions(roomId)
+          .then(qs => nsp.emit('questionAsked', qs));
       }
 
-      // Attempt to create entry for new questions, then broadcast questions to clients
-      socket.on('questionAsked', function (question) {
-        console.log(`New question asked: ${clientId}`);
-        app.service('questions')
-        .create(Object.assign(question, { author: clientId, votes: [], room: namespace }))
-          .then(() => emitQuestions());
+      // Send once on initial connection
+      emitQuestions();
+
+      // TODO: Real time update
+      socket.on('nameChanged', newName => changeName(newName, userId));
+
+      socket.on('questionAsked', (q, anon) => {
+        askQuestion(q, roomId, userId, anon)
+          .then(emitQuestions);
       });
 
-      function castVote(vote) {
-        app.service('questions').get(vote.id).then(newQuestion => {
-          (function handleVote(question) {
-            let votes = question.votes;
-            let voted = (votes.indexOf(clientId));
-
-            if (voted === -1) {
-              votes.push(clientId);
-            } else {
-              votes.splice(voted, 1);
-            }
-
-            app.service('questions').
-              patch(question.id, {votes: votes}).
-              then(emitQuestions);
-          })(newQuestion);
-        });
-      }
-      socket.on('voteCast', function (vote) {
-        castVote(vote);
+      // Cast a vote on a question
+      socket.on('voteCast', questionId => {
+        voteFor(questionId, userId)
+          .then(emitQuestions);
       });
     });
   }
 
-  app.service('rooms').on('created', room => {
-    console.log(`Room created: ${room.name}`);
-    createNamespace(`/${room.name}`);
-  });
+  app.service('room').on('created', room => createNamespace(room.name, room.id));
 };

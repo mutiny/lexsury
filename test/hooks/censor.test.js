@@ -5,13 +5,12 @@ describe('\'censor\' hook', () => {
   it('runs the hook', () => {
     // A mock hook object
     const mock = {};
+    mock.data = { text: 'how big is the fucking universe?' };
     // Initialize our hook with no options
     const hook = censor();
-
-    // Run the hook function (which returns a promise)
-    // and compare the resulting hook object
-    return hook(mock).then(result => {
-      assert.equal(result, mock, 'Returns the expected hook object');
-    });
+    // Run the hook
+    hook(mock);
+    // Run the hook function
+    return assert(mock.data.text.includes('*'), 'Replaces swears with *');
   });
 });
