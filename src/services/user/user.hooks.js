@@ -15,7 +15,7 @@ const restrict = [
 module.exports = {
   before: {
     all: [],
-    find: [ authenticate('jwt') ],
+    find: [ ...restrict ],
     get: [ ...restrict ],
     create: [ local.hooks.hashPassword() ],
     update: [ ...restrict ],
