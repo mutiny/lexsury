@@ -26,7 +26,7 @@
       "expiresIn": "1d"
     }
   },
-  "mysql": "mysql://lexsur:lexsur@localhost/lexsur",
+  "mysql": "mysql://lex@localhost/lexsury",
   "db_dialect": "mysql",
-  "db_url": "mysql://lexsur:lexsur@localhost/lexsur"
+  "db_url": "mysql://lex@localhost/lexsury"
 }
